@@ -1,36 +1,3 @@
 title: Sushmita Math
-description: A portfolio highlighting my journey as a Computer Science Engineering student, showcasing projects, skills, and academic accomplishments.
-theme: jekyll-theme-minimal
-
-# Contact Information
-email: your.email@example.com
-github_username: sushmita-math
-linkedin_username: sushmita-math
-
-# Navigation Menu (Updated with About, Skills, Projects, Business Cases, Contact)
-nav:
-  - title: "About"
-    url: "/about"
-  - title: "Skills"
-    url: "/skills"
-  - title: "Projects"
-    url: "/projects"
-  - title: "Business Cases"
-    url: "/business-cases"
-  - title: "Contact"
-    url: "/contact"
-
-# Site Settings
-show_downloads: false
-url: "https://sushmita-math.github.io"
-baseurl: ""
-
-# Markdown Processing
-markdown: kramdown
-kramdown:
-  input: GFM
-
-# Plugins (for RSS feeds, SEO, etc.)
-plugins:
-  - jekyll-feed
-  - jekyll-seo-tag
+description: My Portfolio Website
+theme: minima
