@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Counterfeit Detection System</title>
+  <link rel="stylesheet" href="counterfeit.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <header>
+    <div class="nav-container">
+      <div class="logo"><span class="highlight-title">Quick Search Generation for New and Unseen Categories</span></div>
+<div style="display: flex;">
+  <div style="margin-left: auto; margin-right: 100px; width: fit-content; margin-top: -10px;">
+    <p style="font-size: 0.95rem; color: #555;">
+      Source: 
+      <a href="https://www.amazon.science/publications/reinforcement-learning-for-adversarial-query-generation-to-enhance-relevance-in-cold-start-product-search" target="_blank" style="color: #4E7A78; text-decoration: none; border-bottom: 1px solid #4E7A78;">
+        https://www.amazon.science/publications/reinforcement-learning-for-adversarial-query-generation-to-enhance-relevance-in-cold-start-product-search
+      </a>
+    </p>
+  </div>
+
+      <ul class="nav-links">
+        <li><a href="#intro">Introduction</a></li>
+        <li><a href="#objectives">Objectives</a></li>
+        <li><a href="#solution">Solution</a></li>
+        <li><a href="#impact">Impact</a></li>
+        <li><a href="#future">Future</a></li>
+        <li><a href="#conclusion">Conclusion</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main>
+    <section id="intro" class="section">
+      <div class="card">
+        <h2>Introduction & Problem Statement</h2>
+        <p>
+In today’s fast-paced e-commerce world, providing relevant and personalized search results is crucial for keeping customers engaged and driving sales. Platforms like Amazon typically use advanced machine learning models trained on large amounts of historical data—such as user interactions, purchase histories, and product details—to rank and recommend products. These models perform well for common queries and popular items but can struggle when faced with diverse and changing user search behaviors. </p> <p>
+One limitation is that traditional methods for generating training queries often produce synthetic queries that are too similar to existing product descriptions. This lack of variety makes it harder for relevance classifiers to learn how to handle the wide range of real user queries, which can reduce the effectiveness of search results.
+Another important factor is ranking products not just based on how well they match a search query but also by their significance within a network of related products, user actions, and purchase patterns. Network-based algorithms like <a href="algorithms.html" style="font-weight:bold;">page rank </a>can identify these connections and help highlight products that are more influential or relevant. Combining these graph-based techniques with machine learning models can lead to better search outcomes.
+A common challenge across e-commerce platforms is the cold start problem—how to deliver relevant results for new products or rare queries when there is little to no historical data available. Since traditional ranking models rely heavily on past user behavior, they often struggle in these situations.
+Addressing these challenges involves using<b> adversarial reinforcement learning (RL) </b>to generate a broader range of challenging search queries, which helps train more robust relevance classifiers. Along with a PageRank-inspired approach that takes into account product network influence, this method can improve the quality of search results, especially for new or less frequently searched products. This, in turn, enhances the overall user experience and can increase conversion rates on platforms like Amazon.
+</p>
+
+        </p>
+      </div>
+    </section>
+
+    <section id="objectives" class="section alt-bg">
+      <div class="card">
+        <h2>Objectives</h2>
+        <ul class="grid-list">
+          <li>To improve query diversity using adversarial reinforcement learning (RL)</li>
+          <li>To Integrate PageRank for Product Influence Ranking</li>
+          <li>To Address the Cold Start Problem in Search Ranking</li>
+        
+        </ul>
+      </div>
+    </section>
+
+<section id="solution" class="section">
+  <div class="card">
+    <h2>System Flow Diagram</h2>
+    <img src="./docs/quick.png" alt="Smart Counterfeit Detection System Flow Diagram" class="flow-image" />
+  </div>
+</section>
+ 
+ <section class="section">
+  <div class="card">
+    <h2>Proposed Solution</h2>
+    <p>
+     To improve the accuracy and robustness of product search—especially in scenarios involving new or low-interaction items—this solution combines adversarial reinforcement learning for generating diverse, realistic queries with a network-based PageRank algorithm that captures product importance based on behavioral signals. By fusing query relevance, product influence, and metadata-driven cold-start support into a unified ranking strategy, the system delivers more relevant results, boosts discoverability of new products, and enhances overall search quality.
+    </p>
+
+    <div style="background-color: #f9fafb; padding: 15px 20px; border-radius: 8px; margin-bottom: 20px;">
+      <h3>Step 1:</h3>
+      <p><b>Build the Query–Product Interaction Dataset</b>
+      <p>  Input: Historical e-commerce search logs (queries, clicked products, interactions).</p>
+<b>Process:</b>
+<ul>
+<li>Filter queries that result in ≥5% clicks on products from a target category (e.g., "pharmacy").</li>
+<li>For each query, collect clicked products and label them as in-category or out-of-category.</li>
+<li>Expand the dataset by pulling all queries that led to these products.</li> <li>
+Label all queries as binary (e.g., "pharmacy" or "non-pharmacy") using interaction volume.</li></ul><b> 
+Example:<br>
+ Query: “fever reducer” → clicked product: “Dolo 650” → label: pharmacy<br>
+ Query: “vitamin supplement” → clicked product: “Multivitamin Gummies” → label: pharmacy</b>
+      </p>
+     
+    </div>
+
+  <div style="background-color: #f9fafb; padding: 15px 20px; border-radius: 8px; margin-bottom: 20px;">
+  <h3>Step 2:</h3>
+  <p><b>Train the Query Generator (FLAN-T5)</b>
+    <ul> <li> Fine-tune a pre-trained LLM (e.g., FLAN-T5-XL) to learn mappings of (product, label) → likely user queries.</li>
+<li> This trains the model to generate meaningful synthetic queries for products.</li> </ul>  </p>
+
+<p> <b>Example: <br>
+ Product: “Crocin Pain Relief” <br>
+ Generated Queries:<br>
+
+ • “headache medicine” (Exact Match) <br>
+ • “fever tablet” (Partial Match) </p>
+  <!-- GitHub Button --> </b>
+  </div>
+
+
+    <div style="background-color: #f9fafb; padding: 15px 20px; border-radius: 8px; margin-bottom: 20px;">
+      <h3>Step 3:</h3>
+      <p><b>Improve Query Diversity via Adversarial Reinforcement Learning (Adv-RL)</b>
+       <ul><li> Use PPO (Proximal Policy Optimization) to optimize the generator in an adversarial loop.</li> 
+<li> Reward is given when a generated query increases classification loss (i.e., challenges the classifier).</li></ul>
+<p> <b>Adversarial Setup:</b> </p> <ul> <li><b>Generator (G): </b>produces synthetic queries. </li>
+<li><b>Classifier (C):  </b>predicts if queries belong to the product category. </li> 
+<li>If classifier struggles, generator receives higher reward. </li>  </ul>
+
+ 
+<b>
+Example: <br>
+ Product: “Dolo 650” <br>
+ Generated Query: “pain-relief tablet for adults” — less direct, more challenging than “fever tablet” </b>
+
+           </p>
+    
+    </div>
+
+    <div style="background-color: #f9fafb; padding: 15px 20px; border-radius: 8px; margin-bottom: 20px;">
+      <h3>Step 4:</h3>
+      <p><b>KL Divergence Penalty for Quality Control  </b></p> 
+<ul><li>Add KL divergence penalty between current generator policy and the fine-tuned model. </li> 
+<li>Prevents the generator from drifting too far (e.g., generating nonsensical queries like “microwave cleaner” for a pharmacy product).</li></ul>
+             
+               </div>
+
+    <div style="background-color: #f9fafb; padding: 15px 20px; border-radius: 8px; margin-bottom: 20px;">
+      <h3>Step 5:</h3>
+ <p><b>Iterative Training Loop  </b> </p>
+     <ul> <li>Generate synthetic queries using current generator. </li>
+<li>Train classifier on real + synthetic data. </li>
+<li>Use classifier feedback to update the generator (via PPO). </li>
+<li>Repeat for multiple cycles (e.g., 4 rounds) to refine both models. </li> </ul>
+  </div>
+
+ <div style="background-color: #f9fafb; padding: 15px 20px; border-radius: 8px; margin-bottom: 20px;">
+      <h3>Step 6:</h3>
+ <p><b>Build a Product Graph </b>
+     <ul> 
+<li>Construct a graph where: 
+ <li>Nodes = products </li> 
+<li>Edges = co-clicks, co-purchases, or semantic similarity</li>
+<li>Edge weights reflect behavioral frequency </li>
+ </li> 
+<p><b>Example: <br>
+ • Headphones ↔ Bluetooth speakers (often co-clicked) <br>
+ • Protein powder ↔ Vitamin C tablets (co-purchased)</b> </p>
+  </div>
+
+ <div style="background-color: #f9fafb; padding: 15px 20px; border-radius: 8px; margin-bottom: 20px;">
+      <h3>Step 7:</h3>
+ <p><b>Apply Time-Decayed Personalized PageRank  </b>
+     <ul> 
+<li>Run PageRank starting from products recently clicked by the user. </li> 
+<li>Add time-decay factor so newer interactions matter more. </li>
+<li>Result: An influence score for each product based on its importance in the interaction network. </li> </ul>
+ </p>
+  </div>
+ 
+
+ <div style="background-color: #f9fafb; padding: 15px 20px; border-radius: 8px; margin-bottom: 20px;">
+      <h3>Step 8:</h3>
+ <p><b>Boost Cold-Start Products with Metadata Graph </b>
+<p>For products with few/no edges: </p>
+     <ul> 
+<li>Create proxy edges using metadata (e.g., same brand, price range, or category).</li> 
+<li>Use cosine similarity between product vectors to assign weights. </li>
+ </ul>
+<p> <b>Example: <br>
+ New Product: “Organic Zinc Supplement” <br>
+ Proxy Edge: Similar to “Nature’s Bounty Zinc 50mg” → cold-start <br>product now gets PageRank influence </b>  </p>
+ </p>
+  </div>
+
+<div style="background-color: #f9fafb; padding: 15px 20px; border-radius: 8px; margin-bottom: 20px;">
+      <h3>Step 9:</h3>
+ <p><b>Fuse Scores for Final Ranking  </b>
+<p>For each product p and query q, compute:  <b>
+FinalScore(p/q,u)=λ1​*Relevance(p/q))+(λ2*⋅PageRank(p/u))+(λ3*ColdStartBoost(p))</b> <br> Where: </p>
+     <ul> 
+<li>λ₁: weight for query–product relevance score from classifier</li> 
+<li>λ₂: weight for product network importance
+</li>
+<li>λ₃: weight for cold-start correction
+</li>
+ </ul>
+<p>  These weights are tuned using A/B tests and validation metrics (e.g., PR-AUC, NDCG@10). </p>
+ </p>
+  </div> 
+
+<div style="background-color: #f9fafb; padding: 15px 20px; border-radius: 8px; margin-bottom: 20px;">
+      <h3>Step 10:</h3>
+ <p><b>Serve Final Ranked Product List </b>
+
+     <ul> 
+<li>Display the top-ranked products based on the FinalScore.</li> 
+<li>Ensures:  <li> 
+High relevance to query</li>  
+<li> 
+Product influence from behavioral network</li>
+<li> 
+Visibility for new products through metadata-based boosts</li>
+</li>
+ </ul>
+ </p>
+ </p>
+  </div> 
+ 
+<div style="background-color: #f9fafb; padding: 15px 20px; border-radius: 8px; margin-bottom: 20px;">
+      <h3>Query: “best Bluetooth headphones”</h3>
+      <ul> 
+<li>Classifier finds highly relevant matches: “Sony WH-1000XM5”, “Bose QuietComfort 45”</li> 
+<li>PageRank boosts “AirPods Max” based on high co-click centrality 
+</li>
+<li>PageRank boosts “AirPods Max” based on high co-click centrality 
+</li>
+<li>A new brand “Infinity Glide 4000” appears due to metadata-based cold-start edge </li>
+ </ul>
+<p><b> <br> Ranked Results: </b> </p>
+ <ol> 
+<li>Sony WH-1000XM5 </li> 
+<li> Bose QC 45</li>
+<li> AirPods Max</li>
+<li>Infinity Glide 4000 </li>
+<li>JBL Tune 760NC </li>
+</ol>
+  </div> 
+
+</section>
+ 
+
+    <section id="impact" class="section alt-bg">
+      <div class="card">
+        <h2>Business Impact</h2>
+        <ul class="grid-list">
+          <li>Boosts discovery of cold-start products by generating meaningful synthetic queries</li>
+          <li>Improves product ranking quality by combining query relevance and network-based importance.</li>
+          <li>Drives engagement and conversions by surfacing both accurate and influential products.</li>
+          <li>Reduces dependency on manual labeling through adversarial, self-supervised query generation.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="future" class="section">
+      <div class="card">
+        <h2>Future Implications</h2>
+        <ul class="grid-list">
+          <li>Incorporate user personalization into PageRank to tailor rankings.</li>
+          <li>Use Graph Neural Networks for richer product relationships.</li>
+          <li>Extend query generation to multiple languages for global scale.
+
+</li>
+ <li>Incorporate downstream user feedback (e.g., purchases, dwell time) into the generator’s reward.
+</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="conclusion" class="section alt-bg">
+      <div class="card">
+        <h2>Conclusion</h2>
+        <p>
+          <ul><li>The combined approach improves search robustness and ranking effectiveness, especially for new or underrepresented products. </li> 
+<li> It aligns well with Amazon’s goal of offering relevant, timely, and high-impact product recommendations.
+</li> </ul>        </p>
+        <a class="download-btn" href="./docs/quick.pdf" download>📄 Download PDF</a>
+      </div>
+    </section>
+  </main>
+
+</body>
+</html>

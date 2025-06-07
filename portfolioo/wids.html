@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>WiDS Datathon Project</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f9fafb;
+      color: #333;
+    }
+  
+    .project-full:hover {
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+    }
+    h1, h2 {
+      color: #4E7A78;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    /* Boxes styling without side border line */
+   .project-full {
+  max-width: 1100px;       /* increased from 960px */
+  margin: 3rem auto;
+  padding: 3rem 2rem;      /* reduced side padding from 3.5rem to 2rem */
+  background-color: #fff;
+  border-radius: 14px;
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.09);
+  transition: box-shadow 0.3s ease;
+}
+
+/* Also reduce horizontal padding inside boxes to expand width */
+.highlight-box, .pdf-box, .repo-box, .tech-box {
+  margin: 2.5rem 0;
+  padding: 2rem 1.5rem;    /* reduced from 2.5rem */
+  background-color: #f0f4f3;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(78, 122, 120, 0.15);
+  cursor: default;
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+    .highlight-box:hover,
+    .pdf-box:hover,
+    .repo-box:hover,
+    .tech-box:hover {
+      box-shadow: 0 8px 25px rgba(78, 122, 120, 0.3);
+      transform: translateY(-5px);
+    }
+    iframe, img {
+      border: none;
+      margin: 1rem 0 0 0;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+      border-radius: 12px;
+      width: 100%;
+      height: auto;
+    }
+    iframe {
+      height: 500px;
+      /* height fixed for pdf preview */
+    }
+    a {
+      color: #4E7A78;
+      text-decoration: none;
+      font-weight: 600;
+      border-bottom: 2px solid transparent;
+      transition: border-color 0.3s ease;
+    }
+    a:hover {
+      border-bottom: 2px solid #4E7A78;
+      text-decoration: none;
+    }
+    ul {
+      padding-left: 1.75rem;
+      margin-top: 0.5rem;
+    }
+    li {
+      margin-bottom: 0.7rem;
+      font-size: 1.05rem;
+      line-height: 1.5;
+    }
+    .back-link {
+      display: inline-block;
+      margin-top: 3rem;
+      padding: 0.7rem 1.2rem;
+      background-color: #4E7A78;
+      color: #fff;
+      border-radius: 6px;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+      text-decoration: none;
+      user-select: none;
+    }
+    .back-link:hover {
+      background-color: #3a5c5a;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <section class="project-full">
+    <h1>WiDS Datathon 2024 – Top 10 Global</h1>
+    <p>Our team tackled a real-world challenge in healthcare ML by predicting metastatic cancer diagnosis time using dataset provided by <b>Gilead Sciences </b>The dataset had real-world  information about demographics, diagnosis and treatment options, and insurance provided about patients who were diagnosed with breast cancer. The dataset originated from <b>Health Verity</b>, one of the largest healthcare data ecosystems in the US. </p>
+
+    <div class="highlight-box">
+      
+      <img src="docs/wids.png" alt="WiDS Team, Certificate, and Global Rank" />
+    </div>
+
+    <div class="pdf-box">
+      <h2>Research Paper (PDF Preview)</h2>
+      <iframe src="./docs/wids.pdf" allowfullscreen></iframe>
+    </div>
+
+<div class="repo-box">
+
+  
+  
+  <a href="./docs/script.ipynb" download>Download Python File</a>
+</div>
+
+
+      <div class="repo-box">
+      <h2>Kaggle</h2>
+      <a href="https://www.kaggle.com/competitions/widsdatathon2024-challenge2/leaderboard" rel="noopener noreferrer">View results on kaggle</a>
+    </div>
+    <div class="tech-box">
+      <h2>Techniques Used</h2>
+      <ul>
+        <li>Gradient Boosting &amp; XGBoost</li>
+        <li>Time-to-event modeling (Cox Proportional Hazards)</li>
+        <li>SHAP-based interpretability</li>
+        <li>Cross-validation with time-aware splitting</li>
+      </ul>
+    </div>
+
+    <a href="index.html" class="back-link">Back to Portfolio</a>
+  </section>
+</body>
+</html>

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>System Design - Image Processing Pipeline</title>
+  <style>
+   
+ body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f9fafb;
+      color: #333;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 40px;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 50px;
+      color: #4E7A78;
+    }
+    .step-description {
+      font-size: 1.1rem;
+      margin-bottom: 15px;
+      color: #555;
+      line-height: 1.5;
+    }
+    .module {
+      display: flex;
+      gap: 30px;
+      margin-bottom: 60px;
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+   .image-container {
+    flex: 1 1 50%;
+    overflow-x: auto;
+    max-width: 30%;
+    border-radius: 8px;
+    background-color: #fff;
+    padding: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+
+  .image-container img {
+    width: 1200px; /* or any width larger than the container */
+    height: auto;
+    display: block;
+  }
+    .code-container {
+      flex: 1 1 600px;
+      max-width: 700px;
+      background-color: #1e1e1e;
+      color: #d4d4d4;
+      padding: 20px;
+      border-radius: 8px;
+      font-family: 'Courier New', Courier, monospace;
+      overflow-y: auto;
+      max-height: 400px;
+      white-space: pre-wrap;
+      box-shadow: inset 0 0 10px #000000;
+    }
+    .report-link {
+      text-align: center;
+      margin-top: 50px;
+      margin-bottom: 80px;
+    }
+    .report-link a {
+      display: inline-block;
+      background-color: #3498db;
+      color: white;
+      text-decoration: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      font-weight: bold;
+      box-shadow: 0 4px 12px rgba(52,152,219,0.6);
+      transition: background-color 0.3s ease;
+    }
+    .report-link a:hover {
+      background-color: #2980b9;
+    }
+  </style>
+</head>
+<body>
+<div style="background-color: white; padding: 40px; border-radius: 14px; box-shadow: 0 6px 25px rgba(0, 0, 0, 0.09); margin: 40px auto; max-width: 1200px;">
+  <div class="container">
+    <h1>System Design: Image Processing and Hemoglobin Prediction Pipeline</h1>
+
+    <!-- Step 1: White Balancing -->
+    <div class="step-description">
+      <strong>Step 1: White Balancing</strong><br />
+      The first step corrects color distortions in the eye images by applying white balancing techniques to ensure consistent lighting and color representation.
+    </div>
+    <div class="module">
+      <div class="image-container">
+        <img src="docs/white.png" alt="White Balancing Example" />
+      </div>
+      <pre class="code-container">
+// White Balancing Python Code
+import cv2
+import numpy as np
+import os
+
+METHOD = "gray_world"  # Options: "gray_world", "perfect_reflector", "histogram"
+
+input_folder = r"C:\\Path\\To\\Input\\Images"
+output_folder = r"C:\\Path\\To\\Output\\WhiteBalanced"
+
+os.makedirs(output_folder, exist_ok=True)
+
+def gray_world_white_balance(image):
+    image = image.astype(np.float32)
+    mean_r, mean_g, mean_b = np.mean(image[:,:,2]), np.mean(image[:,:,1]), np.mean(image[:,:,0])
+    avg = (mean_r + mean_g + mean_b) / 3
+    image[:,:,2] *= avg / mean_r
+    image[:,:,1] *= avg / mean_g
+    image[:,:,0] *= avg / mean_b
+    return np.clip(image, 0, 255).astype(np.uint8)
+
+for filename in os.listdir(input_folder):
+    if filename.lower().endswith(('.png','.jpg','.jpeg')):
+        image_path = os.path.join(input_folder, filename)
+        image = cv2.imread(image_path)
+        wb_image = gray_world_white_balance(image)
+        cv2.imwrite(os.path.join(output_folder, filename), wb_image)
+
+print("White balancing completed!")
+      </pre>
+    </div>
+
+    <!-- Step 2: Image Annotation -->
+    <div class="step-description">
+      <strong>Step 2: Image Annotation</strong><br />
+      Next, each image is manually annotated by selecting points outlining the palpebral conjunctiva. This creates polygon masks used for training segmentation models.
+    </div>
+    <div class="module">
+      <div class="image-container">
+       <img src="docs/ann.png" alt="Annotation Tool Screenshot" style="max-height: 420px; width: auto; display: block; margin: 0 auto;" />
+
+      </div>
+      <pre class="code-container">
+# Image Annotation Code
+import cv2
+import os
+import numpy as np
+
+image_dir = "images"
+output_dir = "output"
+os.makedirs(output_dir, exist_ok=True)
+
+points = []
+original_image = None
+image_display = None
+image_name = ""
+scale_factor = 0.5
+
+def draw_polygon(event, x, y, flags, param):
+    global points, image_display, original_image, scale_factor
+
+    if event == cv2.EVENT_LBUTTONDOWN:
+        x_orig, y_orig = int(x / scale_factor), int(y / scale_factor)
+        points.append((x_orig, y_orig))
+        cv2.circle(image_display, (x, y), 3, (0, 255, 0), -1)
+
+    elif event == cv2.EVENT_RBUTTONDOWN:
+        if len(points) > 2:
+            cv2.polylines(image_display, [np.array(points) * scale_factor], isClosed=True, color=(0, 255, 0), thickness=2)
+            save_annotation()
+        points.clear()
+
+# ... (rest of annotation code)
+      </pre>
+    </div>
+
+    <!-- Step 3: Segmentation & Model Training -->
+    <div class="step-description">
+  <strong>Step 3: Segmentation and Hemoglobin Prediction Model Training</strong><br />
+  Using the annotated images, segmentation extracts the palpebral conjunctiva region. These segmented images, combined with patient metadata (age, sex, Hb levels), are used to train a hemoglobin level prediction model. We used a <b>Random Forest Regressor</b> to learn patterns from deep features extracted using MobileNetV2 along with patient metadata.
+</div>
+
+<div class="module">
+  <div class="image-container">
+    <img src="docs/seg.png" alt="Segmentation Output" style="max-height: 420px; width: auto; display: block; margin: 0 auto;" />
+  </div>
+  
+ 
+
+      <pre class="code-container">
+# Model Training Code
+import pandas as pd
+from sklearn.preprocessing import LabelEncoder
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_squared_error, r2_score
+import numpy as np
+from tensorflow.keras.applications import MobileNetV2
+from tensorflow.keras.preprocessing import image
+from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
+import os
+
+df = pd.read_excel("data.xlsx")
+df.columns = df.columns.str.strip().str.lower().str.replace('.', '').str.replace(' ', '_')
+df = df.dropna(subset=['hb'])
+df['sex'] = LabelEncoder().fit_transform(df['sex'])
+
+mobilenet = MobileNetV2(weights='imagenet', include_top=False, pooling='avg', input_shape=(224,224,3))
+
+def extract_deep_features(img_path):
+    # ... function body ...
+    pass
+
+# ... rest of model training ...
+      </pre>
+
+</div>
+    </div>
+<div style="max-width: 900px; margin: 40px auto; display: flex; align-items: center; justify-content: space-between; gap: 30px; padding: 20px; background-color: #f9fafb; border-radius: 10px;">
+
+  <!-- Table Image -->
+  <div style="flex: 1;">
+    <img src="docs/table.png" alt="Hb Prediction Results Table"
+         style="max-width: 100%; height: auto; display: block;" />
+  </div>
+
+  <!-- Report Link -->
+  <div style="flex-shrink: 0;">
+    <a href="docs/minor.pdf" target="_blank" rel="noopener noreferrer"
+       style="text-decoration: none; font-weight: 600; background-color: #4E7A78; color:#ffffff; padding: 10px 16px; border-radius: 8px; border: 1px solid #c7d2fe;">
+       View Report
+    </a>
+  </div>
+
+</div>
+
+
+  </div>
+ </div>
+</body>
+</html>

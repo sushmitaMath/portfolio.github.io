@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Adaptive Fashion Recommender for E-Commerce Growth</title>
+  <link rel="stylesheet" href="counterfeit.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <header>
+    <div class="nav-container">
+      <div class="logo"><span class="highlight-title">Adaptive Fashion Recommender for E-Commerce Growth</span></div>
+      <ul class="nav-links">
+        <li><a href="#intro">Introduction</a></li>
+        <li><a href="#objectives">Objectives</a></li>
+        <li><a href="#solution">Solution</a></li>
+        <li><a href="#impact">Impact</a></li>
+        <li><a href="#future">Future</a></li>
+        <li><a href="#conclusion">Conclusion</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main>
+<section id="intro" class="section">
+  <div class="card">
+    <h2>Introduction & Problem Statement</h2>
+    <p>
+      The fashion industry is rapidly evolving toward personalized shopping experiences powered by artificial intelligence and machine learning. Customers expect recommendations tailored to their unique styles and preferences, which enhances satisfaction and drives sales growth.
+    </p>
+    <p>
+      However, building an effective personalized outfit recommendation system involves handling diverse data types, including images, textual descriptions, and metadata such as color, style, and seasonality. User preferences are dynamic and influenced by trends, seasons, and personal changes, requiring the system to capture temporal patterns and adapt recommendations accordingly.
+    </p>
+    <p>
+      Balancing familiar, preferred styles with new suggestions is essential to keep users engaged. Additionally, the system must be scalable to handle millions of users and a constantly changing inventory while delivering real-time recommendations.
+    </p>
+    <p>
+      This project integrates advanced data structures for fast retrieval, deep learning embeddings for rich item representation, adaptive algorithms to balance exploration and exploitation, and reinforcement learning for continuous improvement. The goal is to build a robust, scalable personalized outfit recommendation system that aligns with customer obsession and innovation principles.
+    </p>
+  </div>
+</section>
+
+
+    <section id="objectives" class="section alt-bg">
+      <div class="card">
+        <h2>Objectives</h2>
+        <ul class="grid-list">
+          <li>To develop a recommendation system that delivers personalized outfit suggestions tailored to individual user preferences and style.</li>
+          <li>To ensure fast and efficient retrieval of fashion data using appropriate data structures for a seamless user experience.</li>
+          <li>To adapt recommendations dynamically based on evolving user behavior and seasonal trends to maintain relevance.</li>
+          <li>To design the system to scale efficiently, handling a large user base and constantly updating product inventory in real time.</li>
+        </ul>
+      </div>
+    </section>
+
+<section id="solution" class="section">
+  <div class="card">
+    <h2>System Flow Diagram</h2>
+    <img src="./docs/fashion.png" alt="Smart Counterfeit Detection System Flow Diagram" class="flow-image" />
+  </div>
+</section>
+ 
+ <section class="section">
+  <div class="card">
+    <h2>Proposed Solution</h2>
+    <p>
+     The system is designed to recommend personalized outfits by combining smart data organization with modern machine learning. It starts by setting up efficient structures to quickly find products and user info. Then, it uses AI models to understand product images and descriptions in a meaningful way. The system keeps track of what users like over time and balances suggestions between favorites and new items. It also considers factors like season and location to make recommendations more relevant. For new users or products, it groups similar profiles to provide good starting suggestions. The system updates recommendations in real-time and learns from user actions to get better over time. Overall, this approach creates a fast, flexible, and personalized shopping experience.
+
+
+    </p>
+
+    <div style="background-color: #f9fafb; padding: 15px 20px; border-radius: 8px; margin-bottom: 20px;">
+      <h3>Step 1:</h3>
+      <p><b>Collect and Organize Raw Data</b><br>
+       The initial step involves gathering data from multiple sources including the product catalog—which contains images, styles, brands, and descriptions—user profiles with demographic and preference information, and interaction logs such as clicks, purchases, and views. Organizing this data effectively is crucial to building a solid foundation for the recommendation system. To enable fast and responsive search capabilities,  <a href="algorithms.html">Trie(prefix tree)</a> is constructed to store product style names, allowing quick autocomplete and filtering when users type partial queries. Additionally, user profiles and product metadata are stored in <a href="algorithms.html">Hash maps</a> to facilitate instant retrieval by their unique identifiers. The output of this step is a set of optimized data structures that support rapid lookup and retrieval, which then feed into the subsequent stages where deeper product features are analyzed for personalized recommendations.
+
+
+      </p>
+     
+    </div>
+
+  <div style="background-color: #f9fafb; padding: 15px 20px; border-radius: 8px; margin-bottom: 20px;">
+  <h3>Step 2:</h3>
+  <p><b> Convert Products and Text into Embeddings </b><br>
+   Since raw images and text cannot be directly compared in a meaningful way, the next step is to transform them into numerical representations that capture important characteristics such as style, color, and fabric. Product images are processed using a<b> Convolutional Neural Network (CNN)</b>, which extracts key visual features like patterns and colors. At the same time, product descriptions and reviews are analyzed with a Transformer-based model, such as<b> BERT</b>, which understands the context and meaning of the language. These visual and textual features are then combined into a single embedding vector that represents each product holistically. This vectorized form allows the system to effectively measure similarity between products and later align these representations with individual user preferences for more accurate recommendations.
+
+
+  </p>
+
+  <!-- GitHub Button -->
+  </div>
+
+
+    <div style="background-color: #f9fafb; padding: 15px 20px; border-radius: 8px; margin-bottom: 20px;">
+      <h3>Step 3:</h3>
+      <p><b>Understand User Behavior Over Time</b><br>
+        User preferences are not static; for example, someone might shop for summer clothes during warm months and switch to winter jackets as the season changes. To keep recommendations relevant, the system needs to adapt dynamically to these evolving tastes. This is done by collecting time-stamped data of user interactions such as clicks and purchases. A <a href="algorithms.html">fenwick tree</a>  is employed to efficiently calculate the volume of these interactions within recent time frames, like the past 30 days. Additionally, a history-aware Transformer model analyzes the sequence of user actions to identify patterns and trends over time. The result is a dynamic user preference vector that captures both short-term interests and long-term behavior. This updated preference profile is then used to recommend products that better match what the user currently desires.
+      </p>
+    
+    </div>
+
+    <div style="background-color: #f9fafb; padding: 15px 20px; border-radius: 8px; margin-bottom: 20px;">
+      <h3>Step 4:</h3>
+      <p><b> Balance Familiar vs New Recommendations  </b>
+        Recommending only the products a user has liked before can become repetitive and dull, while constantly showing new and unfamiliar items might risk losing their interest. To keep users engaged, the system needs to strike a smart balance between exploring new options and exploiting known favorites. This is achieved using a Multi-Armed Bandit algorithm, specifically Thompson Sampling, which learns from user interactions such as clicks. By probabilistically selecting items, the algorithm maximizes user engagement by deciding when to recommend familiar products and when to introduce new ones. The outcome is a ranked list of personalized recommendations that feel both relevant and fresh. These suggestions are then further refined by considering additional contextual factors in the next step.</p>
+          </div>
+
+    <div style="background-color: #f9fafb; padding: 15px 20px; border-radius: 8px; margin-bottom: 20px;">
+      <h3>Step 5:</h3>
+      <p><b>Keep Recommendations Fast and Scalable</b></p>
+      With a constantly growing product catalog and a large user base, the system needs to deliver recommendations quickly and efficiently. Users expect instant results, so the recommendation engine must be both fast and scalable. To achieve this, the system keeps a priority queue (like a min-heap) that stores the top recommendations for each user, enabling rapid retrieval when needed. Additionally, it uses a Count-Min Sketch, a memory-efficient data structure, to estimate the popularity of items without needing to track every detail exactly. This combination ensures that recommendations are updated in real-time and can scale smoothly as the number of users and products grows. These fast and scalable results then serve as a foundation for ongoing learning from user feedback.
+
+
+        </div>
+
+    <div style="background-color: #f9fafb; padding: 15px 20px; border-radius: 8px; margin-bottom: 20px;">
+      <h3>Step 6:</h3>
+      <p>User preferences are always changing, so the recommendation system needs to keep up and adapt quickly to stay relevant. To do this, the system treats user actions like clicks and purchases as feedback or “rewards” that help it learn what works best. Using reinforcement learning techniques, specifically policy gradient methods, the system gradually updates its recommendation strategy based on this feedback. To make sure recent user behavior has more influence, it uses a sliding window approach that focuses on the most recent interactions. This way, the system continuously improves and personalizes recommendations to better match what users want over time.</p>
+
+
+        </div>
+
+
+    <div class="outcomes">
+      <h3><b>Outcomes</b></h3>
+      <ul class="vertical-list">
+       
+          <li><b>Enhanced Personalization & Engagement: </b>The system delivers tailored outfit recommendations by understanding user preferences, visual-textual product features, and contextual signals—resulting in higher user satisfaction, retention, and conversion.</li>
+          <li><b> Scalable, Adaptive Intelligence: </b>With fast data structures, deep learning models, and continuous feedback loops via reinforcement learning, the solution remains responsive, scalable, and self-improving—ideal for dynamic, large-scale fashion e-commerce environments.</li>
+       
+      </ul>
+    </div>
+  </div>
+</section>
+
+
+    <section id="impact" class="section alt-bg">
+      <div class="card">
+        <h2>Business Impact</h2>
+        <ul class="grid-list">
+          <li><b>Increased Revenue through Smart Personalization:  </b>By recommending outfits that match user tastes and context, the system boosts click-through rates and purchase conversions—directly driving higher average order values and repeat purchases.
+
+</li><li> <b>Reduced Churn & Stronger Customer Loyalty:  </b>  Continuously learning from user feedback ensures recommendations stay relevant, encouraging long-term engagement and significantly lowering customer acquisition and retention costs.</li>
+        </ul>
+      </div>
+    </section>
+
+   
+    <section id="conclusion" class="section alt-bg">
+      <div class="card">
+        <h2>Conclusion</h2>
+        <p>
+          This system offers a smart, responsive approach to outfit recommendation—one that adapts to changing preferences, understands user behavior, and keeps suggestions relevant, personal, and timely.
+        </p>
+       
+      </div>
+    </section>
+  </main>
+
+</body>
+</html>

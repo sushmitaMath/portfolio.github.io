@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MVC Architecture Design for Amazon</title>
+  <link rel="stylesheet" href="counterfeit.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins&display=swap" rel="stylesheet">
+  <style>
+    /* Add this if boxes still don’t appear */
+    .card {
+      background-color: #f9fafb;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    }
+
+    .section {
+      padding: 20px;
+    }
+
+    .vertical-list {
+      list-style-type: disc;
+      padding-left: 20px;
+    }
+
+    .flow-image {
+      max-width: 100%;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="nav-container">
+      <div class="logo"><span class="highlight-title">MVC Architecture Design for Amazon E-Commerce Platform</span></div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Intro Section -->
+    <section id="intro" class="section">
+      <div class="card">
+        <h2>MVC Components Breakdown</h2>
+        <p></p>
+      </div>
+    </section>
+ <!-- System Flow Diagram -->
+    <section id="flow" class="section">
+      <div class="card">
+        <h2>System Flow Diagram</h2>
+        <img src="./docs/MVC.png" alt="Smart Counterfeit Detection System Flow Diagram" class="flow-image" />
+      </div>
+    </section>
+
+    <!-- Model Layer -->
+    <section id="model" class="section">
+      <div class="card">
+        <h2>Model (Data + Business Logic)</h2>
+        <ul class="vertical-list">
+          <li><b>User:</b> Stores user information, preferences, purchase history, payment methods.</li>
+          <li><b>Product Model:</b> Product details, pricing, stock availability.</li>
+          <li><b>Order Model:</b> Orders placed by users, order status, payment info.</li>
+          <li><b>Cart Model:</b> Items selected by the user for purchase.</li>
+          <li><b>Review Model:</b> Customer reviews and ratings.</li>
+          <li><b>Inventory Model:</b> Stock management, warehouse info.</li>
+          <li><b>Recommendation Model:</b> User preferences, purchase patterns.</li>
+<b>Responsibilities:</b>
+        </ul>
+ <ul class="vertical-list">
+          <li>Interact with the database.</li>
+          <li>Enforce business rules (e.g., apply discounts, validate payment).</li>
+          <li>Communicate with external services (payment gateways, logistics APIs).</li>
+          
+        </ul>
+
+      </div>
+    </section>
+
+   
+
+    <!-- View Layer -->
+    <section id="view" class="section">
+      <div class="card">
+        <h2>View Layer</h2>
+        <p>The View layer displays data to the user. For Amazon, this includes:</p>
+        <ul class="vertical-list">
+          <li><b>Product Listing Page:</b> Displays products, search results, filters.</li>
+          <li><b>Product Details Page:</b> Detailed view of a product.</li>
+          <li><b>Cart Page:</b> Displays items in the cart.</li>
+          <li><b>Checkout Page:</b> Payment forms, order summary.</li>
+          <li><b>Order Confirmation Page:</b> Displays order status.</li>
+          <li><b>User Profile Page:</b> User info and purchase history.</li>
+          <li><b>Review Page:</b> Form for submitting product reviews.</li>
+        </ul>
+ <b>Responsibilities:</b>
+        </ul>
+ <ul class="vertical-list">
+          <li>Render data to users.</li>
+          <li>Collect user inputs (clicks, form submissions).</li>
+          <li>Provide responsive, dynamic UI for seamless shopping.</li>
+          
+        </ul>
+      </div>
+    </section>
+
+    <!-- Controller Layer -->
+    <section id="controller" class="section">
+      <div class="card">
+        <h2>Controller Layer</h2>
+        <p>Controllers receive user requests, interact with Models to process data, and select Views to render.</p>
+        <p>Some controllers for Amazon:</p>
+        <ul class="vertical-list">
+          <li><b>Product Controller:</b> Handles search, filtering, and displaying products.</li>
+          <li><b>CartController:</b> Manages adding/removing items from cart.</li>
+          <li><b>OrderController:</b> Handles order creation, payment, and tracking.</li>
+          <li><b>UserController:</b> Manages user registration, login, profile update.</li>
+          <li><b>ReviewController:</b> Handles submission and display of reviews.</li>
+        </ul>
+ <b>Responsibilities:</b>
+        </ul>
+ <ul class="vertical-list">
+          <li>Receive and validate user inputs.</li>
+          <li>Invoke appropriate Model methods.</li>
+          <li>Choose which View to render based on outcomes.</li>
+          <li>Handle errors and redirect flows as needed.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Overall Flow -->
+    <section id="overall-flow" class="section">
+      <div class="card">
+        <h2><b>Overall Flow Example:</b></h2>
+        <ol class="vertical-list">
+          <b>
+            <li>User searches for a product on the Amazon homepage (View).</li>
+            <li>The ProductController receives the search input (Controller).</li>
+            <li>It calls the Product Model to get matching products (Model).</li>
+            <li>The controller sends this data back to the View for rendering the product list.</li>
+            <li>User adds a product to their cart — CartController updates the Cart Model.</li>
+            <li>The Cart View updates to show current cart contents.</li>
+          </b>
+        </ol>
+      </div>
+    </section>
+  </main>
+
+</body>
+</html>

@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>A* Pathfinding Animation</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
+  }
+  #grid {
+    display: grid;
+    grid-template-columns: repeat(20, 25px);
+    grid-template-rows: repeat(20, 25px);
+    gap: 1px;
+  }
+  .cell {
+    width: 25px;
+    height: 25px;
+    background-color: #eee;
+    border: 1px solid #ccc;
+  }
+  .cell.wall {
+    background-color: #333;
+  }
+  .cell.start {
+    background-color: #2ecc71;
+  }
+  .cell.end {
+    background-color: #e74c3c;
+  }
+  .cell.open {
+    background-color: #3498db;
+  }
+  .cell.closed {
+    background-color: #2980b9;
+  }
+  .cell.path {
+    background-color: #f1c40f;
+  }
+  #info {
+    margin-top: 15px;
+  }
+  button {
+    margin-top: 15px;
+    padding: 8px 15px;
+    font-size: 16px;
+  }
+</style>
+</head>
+<body>
+
+<h2>A* Pathfinding Animation</h2>
+
+<div id="grid"></div>
+
+<div id="info">
+  <p>Click on cells to toggle walls. Start is green, End is red.</p>
+  <button id="startBtn">Start A*</button>
+  <button id="resetBtn">Reset</button>
+</div>
+
+<script>
+  // Grid size
+  const ROWS = 20;
+  const COLS = 20;
+
+  // Grid data
+  const gridElement = document.getElementById('grid');
+  let grid = [];
+  let startNode = null;
+  let endNode = null;
+
+  // Create cells
+  for (let r = 0; r < ROWS; r++) {
+    grid[r] = [];
+    for (let c = 0; c < COLS; c++) {
+      const cell = document.createElement('div');
+      cell.classList.add('cell');
+      cell.dataset.row = r;
+      cell.dataset.col = c;
+      gridElement.appendChild(cell);
+      grid[r][c] = {
+        row: r,
+        col: c,
+        element: cell,
+        isWall: false,
+        g: Infinity,
+        h: Infinity,
+        f: Infinity,
+        parent: null,
+      };
+
+      // Toggle walls on click
+      cell.addEventListener('click', () => {
+        if (startNode === grid[r][c] || endNode === grid[r][c]) return; // can't toggle start/end
+        grid[r][c].isWall = !grid[r][c].isWall;
+        cell.classList.toggle('wall');
+      });
+    }
+  }
+
+  // Set start and end points
+  startNode = grid[0][0];
+  endNode = grid[ROWS - 1][COLS - 1];
+  startNode.element.classList.add('start');
+  endNode.element.classList.add('end');
+
+  // Heuristic (Manhattan distance)
+  function heuristic(a, b) {
+    return Math.abs(a.row - b.row) + Math.abs(a.col - b.col);
+  }
+
+  // Get neighbors (up, down, left, right)
+  function getNeighbors(node) {
+    const neighbors = [];
+    const {row, col} = node;
+    if (row > 0) neighbors.push(grid[row - 1][col]);
+    if (row < ROWS - 1) neighbors.push(grid[row + 1][col]);
+    if (col > 0) neighbors.push(grid[row][col - 1]);
+    if (col < COLS - 1) neighbors.push(grid[row][col + 1]);
+    return neighbors.filter(n => !n.isWall);
+  }
+
+  // A* algorithm generator for step-by-step animation
+  function* aStar(start, end) {
+    let openSet = new Set();
+    openSet.add(start);
+
+    start.g = 0;
+    start.h = heuristic(start, end);
+    start.f = start.h;
+
+    let closedSet = new Set();
+
+    while (openSet.size > 0) {
+      // Find node in openSet with lowest f
+      let current = null;
+      openSet.forEach(node => {
+        if (!current || node.f < current.f) current = node;
+      });
+
+      if (current === end) {
+        // Path found, reconstruct path
+        const path = [];
+        let temp = current;
+        while (temp) {
+          path.push(temp);
+          temp = temp.parent;
+        }
+        path.reverse();
+        return path;
+      }
+
+      openSet.delete(current);
+      closedSet.add(current);
+
+      yield {openSet: Array.from(openSet), closedSet: Array.from(closedSet), current};
+
+      let neighbors = getNeighbors(current);
+      for (let neighbor of neighbors) {
+        if (closedSet.has(neighbor)) continue;
+
+        let tentativeG = current.g + 1; // Distance between nodes is 1
+        if (!openSet.has(neighbor)) {
+          openSet.add(neighbor);
+        } else if (tentativeG >= neighbor.g) {
+          continue;
+        }
+
+        neighbor.parent = current;
+        neighbor.g = tentativeG;
+        neighbor.h = heuristic(neighbor, end);
+        neighbor.f = neighbor.g + neighbor.h;
+      }
+    }
+    // No path found
+    return null;
+  }
+
+  // Animate the A* algorithm
+  const startBtn = document.getElementById('startBtn');
+  const resetBtn = document.getElementById('resetBtn');
+
+  let animationInterval = null;
+
+  function resetGrid() {
+    // Reset all cells and node data
+    for (let r = 0; r < ROWS; r++) {
+      for (let c = 0; c < COLS; c++) {
+        let node = grid[r][c];
+        node.g = Infinity;
+        node.h = Infinity;
+        node.f = Infinity;
+        node.parent = null;
+        if (!node.isWall) {
+          node.element.className = 'cell';
+        }
+        if (node === startNode) node.element.classList.add('start');
+        if (node === endNode) node.element.classList.add('end');
+      }
+    }
+  }
+
+  startBtn.addEventListener('click', () => {
+    resetGrid();
+
+    const generator = aStar(startNode, endNode);
+
+    animationInterval = setInterval(() => {
+      const result = generator.next();
+
+      if (result.done) {
+        clearInterval(animationInterval);
+        const path = result.value;
+        if (path) {
+          // Color the final path
+          for (let node of path) {
+            if (node !== startNode && node !== endNode) {
+              node.element.classList.add('path');
+            }
+          }
+          alert('Path found!');
+        } else {
+          alert('No path found!');
+        }
+        return;
+      }
+
+      const {openSet, closedSet, current} = result.value;
+
+      // Update cell classes
+      for (let node of closedSet) {
+        if (node !== startNode && node !== endNode) {
+          node.element.classList.add('closed');
+        }
+      }
+      for (let node of openSet) {
+        if (node !== startNode && node !== endNode) {
+          node.element.classList.add('open');
+        }
+      }
+
+      // Highlight current node
+      grid.forEach(row =>
+        row.forEach(node => {
+          if (node !== current && node.element.classList.contains('current')) {
+            node.element.classList.remove('current');
+          }
+        })
+      );
+      if (current !== startNode && current !== endNode) {
+        current.element.classList.add('current');
+        current.element.style.border = '2px solid orange';
+      }
+    }, 100); // Speed of animation (ms)
+  });
+
+  resetBtn.addEventListener('click', () => {
+    clearInterval(animationInterval);
+    animationInterval = null;
+    // Remove all wall and reset cells
+    for (let r = 0; r < ROWS; r++) {
+      for (let c = 0; c < COLS; c++) {
+        grid[r][c].isWall = false;
+        grid[r][c].element.className = 'cell';
+      }
+    }
+    startNode.element.className = 'cell start';
+    endNode.element.className = 'cell end';
+  });
+</script>
+
+</body>
+</html>

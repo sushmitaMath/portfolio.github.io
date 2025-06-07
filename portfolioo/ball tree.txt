@@ -1,0 +1,5 @@
+ball tree
+kd tree
+lsh
+TF-IDF
+MMI

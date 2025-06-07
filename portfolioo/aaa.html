@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Uniform Cost Search Animation</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    background: #f0f4f8;
+  }
+  h2 {
+    color: #00796b;
+  }
+  #graph {
+    position: relative;
+    width: 600px;
+    height: 400px;
+    border: 1px solid #ddd;
+    background: white;
+    margin-bottom: 20px;
+  }
+  .node {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #4caf50;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    line-height: 40px;
+    position: absolute;
+    cursor: default;
+    transition: background 0.3s;
+  }
+  .node.visited {
+    background: #9ccc65;
+  }
+  .node.current {
+    background: #ff7043;
+  }
+  .node.path {
+    background: #fbc02d;
+  }
+  svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+  }
+  .edge {
+    stroke: #888;
+    stroke-width: 2;
+  }
+  .edge.highlight {
+    stroke: #fbc02d;
+    stroke-width: 4;
+  }
+  .edge-label {
+    fill: #333;
+    font-size: 14px;
+    font-weight: bold;
+  }
+  #controls {
+    margin-top: 10px;
+  }
+  button {
+    padding: 10px 15px;
+    margin-right: 10px;
+    background: #00796b;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  button:disabled {
+    background: #aaa;
+    cursor: not-allowed;
+  }
+  #info {
+    margin-top: 20px;
+    font-size: 16px;
+    background: #e0f2f1;
+    padding: 15px;
+    border-radius: 8px;
+  }
+  #queue {
+    margin-top: 15px;
+  }
+  #queue span {
+    display: inline-block;
+    background: #00796b;
+    color: white;
+    padding: 5px 12px;
+    margin-right: 8px;
+    border-radius: 20px;
+    font-weight: bold;
+  }
+</style>
+</head>
+<body>
+
+<h2>Uniform Cost Search Animation</h2>
+
+<div id="graph">
+  <!-- Nodes -->
+  <div class="node" id="node0" style="top: 50px; left: 50px;">A</div>
+  <div class="node" id="node1" style="top: 50px; left: 250px;">B</div>
+  <div class="node" id="node2" style="top: 150px; left: 450px;">C</div>
+  <div class="node" id="node3" style="top: 300px; left: 250px;">D</div>
+  <div class="node" id="node4" style="top: 300px; left: 50px;">E</div>
+
+  <!-- SVG for edges -->
+  <svg width="600" height="400">
+    <line id="edge0" class="edge" x1="70" y1="70" x2="270" y2="70"></line>
+    <text x="170" y="60" class="edge-label">2</text>
+
+    <line id="edge1" class="edge" x1="270" y1="70" x2="470" y2="170"></line>
+    <text x="370" y="140" class="edge-label">5</text>
+
+    <line id="edge2" class="edge" x1="470" y1="170" x2="270" y2="320"></line>
+    <text x="370" y="250" class="edge-label">1</text>
+
+    <line id="edge3" class="edge" x1="270" y1="320" x2="70" y2="320"></line>
+    <text x="170" y="310" class="edge-label">2</text>
+
+    <line id="edge4" class="edge" x1="70" y1="320" x2="70" y2="70"></line>
+    <text x="20" y="190" class="edge-label">4</text>
+
+    <line id="edge5" class="edge" x1="270" y1="70" x2="270" y2="320"></line>
+    <text x="280" y="195" class="edge-label">3</text>
+  </svg>
+</div>
+
+<div id="controls">
+  <button id="stepBtn">Next Step</button>
+  <button id="resetBtn" disabled>Reset</button>
+</div>
+
+<div id="info">
+  <b>Current Node:</b> <span id="currentNode">None</span><br />
+  <b>Queue:</b> <span id="queue"></span><br />
+  <b>Visited Nodes:</b> <span id="visitedNodes"></span><br />
+  <b>Status:</b> <span id="status">Click "Next Step" to start UCS</span>
+</div>
+
+<script>
+// Graph definition: adjacency list with weights
+// Each node: [neighborIndex, cost]
+const graph = [
+  [[1, 2], [4, 4]],    // A (0) connected to B(1) cost 2, E(4) cost 4
+  [[0, 2], [2, 5], [3, 3]], // B (1) connected to A(0), C(2), D(3)
+  [[1, 5], [3, 1]],    // C (2) connected to B(1), D(3)
+  [[1, 3], [2, 1], [4, 2]], // D (3) connected to B(1), C(2), E(4)
+  [[0, 4], [3, 2]],    // E (4) connected to A(0), D(3)
+];
+
+const startNode = 0; // A
+const goalNode = 2;  // C
+
+// UCS state variables
+let queue = []; // Priority queue: array of {node, cost, path}
+let visited = new Set();
+let current = null;
+let finished = false;
+
+const nodeEls = [];
+for(let i=0; i<5; i++) {
+  nodeEls.push(document.getElementById('node'+i));
+}
+const edgeEls = [
+  document.getElementById('edge0'),
+  document.getElementById('edge1'),
+  document.getElementById('edge2'),
+  document.getElementById('edge3'),
+  document.getElementById('edge4'),
+  document.getElementById('edge5'),
+];
+
+const currentNodeSpan = document.getElementById('currentNode');
+const queueSpan = document.getElementById('queue');
+const visitedSpan = document.getElementById('visitedNodes');
+const statusSpan = document.getElementById('status');
+
+function updateUI() {
+  // Reset node colors
+  nodeEls.forEach(n => {
+    n.classList.remove('visited', 'current', 'path');
+  });
+  // Reset edges
+  edgeEls.forEach(e => e.classList.remove('highlight'));
+
+  // Highlight visited nodes
+  visited.forEach(v => nodeEls[v].classList.add('visited'));
+
+  // Highlight current node
+  if(current !== null) {
+    nodeEls[current.node].classList.add('current');
+  }
+
+  // Update queue display
+  queueSpan.innerHTML = queue.map(e => `${String.fromCharCode(65 + e.node)}(${e.cost})`).join(', ') || 'Empty';
+
+  // Update visited display
+  visitedSpan.innerHTML = Array.from(visited).map(v => String.fromCharCode(65 + v)).join(', ') || 'None';
+
+  // Current node label
+  currentNodeSpan.textContent = current ? `${String.fromCharCode(65 + current.node)} (Cost: ${current.cost})` : 'None';
+}
+
+function highlightPath(path) {
+  // Highlight nodes on path
+  path.forEach(n => nodeEls[n].classList.add('path'));
+
+  // Highlight edges on path
+  for(let i=0; i<path.length-1; i++) {
+    highlightEdge(path[i], path[i+1]);
+  }
+}
+
+function highlightEdge(n1, n2) {
+  // Map edges to line ids
+  // We know edges and their connections from the SVG
+  // We'll highlight the edge between n1 and n2 if exists
+
+  // Edges list: [ [0-1], [1-2], [2-3], [3-4], [4-0], [1-3] ]
+  const edges = [
+    [0,1],
+    [1,2],
+    [2,3],
+    [3,4],
+    [4,0],
+    [1,3]
+  ];
+
+  for(let i=0; i<edges.length; i++) {
+    if(
+      (edges[i][0] === n1 && edges[i][1] === n2) ||
+      (edges[i][0] === n2 && edges[i][1] === n1)
+    ) {
+      edgeEls[i].classList.add('highlight');
+      break;
+    }
+  }
+}
+
+// Priority Queue helper: insert keeping cost ascending
+function enqueue(queue, elem) {
+  queue.push(elem);
+  queue.sort((a,b) => a.cost - b.cost);
+}
+
+function nextStep() {
+  if(finished) {
+    statusSpan.textContent = "Search already finished. Please reset.";
+    return;
+  }
+
+  if(queue.length === 0) {
+    // Initialization: add start node
+    enqueue(queue, {node: startNode, cost: 0, path: [startNode]});
+    statusSpan.textContent = "Started from node " + String.fromCharCode(65 + startNode);
+    updateUI();
+    return;
+  }
+
+  // Pop node with smallest cost
+  current = queue.shift();
+
+  if(visited.has(current.node)) {
+    statusSpan.textContent = `Node ${String.fromCharCode(65 + current.node)} already visited, skipping.`;
+    updateUI();
+    return;
+  }
+
+  visited.add(current.node);
+  statusSpan.textContent = `Expanding node ${String.fromCharCode(65 + current.node)} with cost ${current.cost}`;
+
+  // Check if goal
+  if(current.node === goalNode) {
+    statusSpan.textContent = `Goal node ${String.fromCharCode(65 + goalNode)} reached! Minimum cost: ${current.cost}`;
+    highlightPath(current.path);
+    finished = true;
+    updateUI();
+    return;
+  }
+
+  // Add neighbors to queue
+  for(let [neighbor, cost] of graph[current.node]) {
+    if(!visited.has(neighbor)) {
+      enqueue(queue, {node: neighbor, cost: current.cost + cost, path: [...current.path, neighbor]});
+    }
+  }
+  updateUI();
+}
+
+function reset() {
+  queue = [];
+  visited.clear();
+  current = null;
+  finished = false;
+  statusSpan.textContent = "Click \"Next Step\" to start UCS";
+  nodeEls.forEach(n => n.classList.remove('visited', 'current', 'path'));
+  edgeEls.forEach(e => e.classList.remove('highlight'));
+  updateUI();
+  document.getElementById('stepBtn').disabled = false;
+  document.getElementById('resetBtn').disabled = true;
+}
+
+document.getElementById('stepBtn').addEventListener('click', () => {
+  nextStep();
+  if(finished) {
+    document.getElementById('stepBtn').disabled = true;
+    document.getElementById('resetBtn').disabled = false;
+  }
+});
+document.getElementById('resetBtn').addEventListener('click', reset);
+
+// Initial UI setup
+reset();
+</script>
+
+</body>
+</html>

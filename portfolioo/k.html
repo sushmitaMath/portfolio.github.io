@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>System Design Diagram with Arrows</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f7f9fb;
+    margin: 0;
+    padding: 30px;
+    display: flex;
+    justify-content: center;
+  }
+  .diagram {
+    background: #fff;
+    border-radius: 8px;
+    padding: 40px 50px;
+    box-shadow: 0 4px 20px rgb(0 0 0 / 0.1);
+    max-width: 900px;
+    width: 100%;
+    position: relative;
+  }
+
+  .box {
+    background-color: #4e7a78;
+    color: white;
+    padding: 20px 30px;
+    margin: 15px 0;
+    border-radius: 8px;
+    font-weight: 600;
+    min-width: 320px;
+    text-align: center;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.15);
+    position: relative;
+    z-index: 2;
+  }
+
+  .vertical-flow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+  }
+
+  .horizontal-row {
+    display: flex;
+    justify-content: space-between;
+    margin: 40px 0 0 0;
+    width: 100%;
+    max-width: 900px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .horizontal-row .box {
+    flex: 1;
+    margin: 0 15px;
+    min-width: 280px;
+  }
+
+  .outputs-row {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 50px;
+    width: 100%;
+    max-width: 900px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .outputs-row .box {
+    flex: 1;
+    margin: 0 15px;
+    min-width: 280px;
+    background-color: #397367;
+  }
+
+  /* SVG container styling */
+  svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 650px;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Responsive */
+  @media (max-width: 700px) {
+    .horizontal-row, .outputs-row {
+      flex-direction: column;
+      align-items: center;
+    }
+    .horizontal-row .box, .outputs-row .box {
+      margin: 15px 0;
+      width: 100%;
+      max-width: 320px;
+    }
+  }
+</style>
+</head>
+<body>
+  <div class="diagram" id="diagram">
+
+    <div class="vertical-flow">
+      <div class="box" id="box1">Raw Data: Sales, Inventory, Warehouse Graph, Orders</div>
+      <div class="box" id="box2">Data Ingestion & Preprocessing</div>
+      <div class="box" id="box3">Database Layer<br><small>(Stores data, indexes, builds segment trees)</small></div>
+      <div class="box" id="box4">Segment Tree Query Layer</div>
+    </div>
+
+    <div class="horizontal-row">
+      <div class="box" id="box5">Search & Ranking<br><small>(Filtered, Ranked Results)</small></div>
+      <div class="box" id="box6">Restocking Module<br><small>(Route Planning)</small></div>
+    </div>
+
+    <div class="outputs-row">
+      <div class="box" id="box7">Customer Support, Dynamic Pricing, Product Search</div>
+      <div class="box" id="box8">Warehouse/Logistics Teams & Systems</div>
+    </div>
+
+    <svg id="arrows-svg"></svg>
+  </div>
+
+<script>
+  // Draw arrows between elements dynamically
+  function drawArrow(svg, startElem, endElem, options = {}) {
+    const svgRect = svg.getBoundingClientRect();
+    const startRect = startElem.getBoundingClientRect();
+    const endRect = endElem.getBoundingClientRect();
+
+    // Calculate start and end points relative to SVG container
+    const startX = startRect.left + startRect.width / 2 - svgRect.left;
+    const startY = startRect.bottom - svgRect.top;
+    const endX = endRect.left + endRect.width / 2 - svgRect.left;
+    const endY = endRect.top - svgRect.top;
+
+    // Control points for smooth Bezier curve
+    const controlY = startY + (endY - startY) / 2;
+
+    // Create path data for smooth vertical arrow with slight curve
+    const pathData = `
+      M ${startX} ${startY}
+      C ${startX} ${controlY} ${endX} ${controlY} ${endX} ${endY}
+    `;
+
+    // Create path element
+    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    path.setAttribute("d", pathData);
+    path.setAttribute("fill", "none");
+    path.setAttribute("stroke", options.color || "#4e7a78");
+    path.setAttribute("stroke-width", options.width || 3);
+    path.setAttribute("marker-end", "url(#arrowhead)");
+
+    svg.appendChild(path);
+  }
+
+  function drawHorizontalArrow(svg, startElem, endElem, options = {}) {
+    const svgRect = svg.getBoundingClientRect();
+    const startRect = startElem.getBoundingClientRect();
+    const endRect = endElem.getBoundingClientRect();
+
+    const startX = startRect.right - svgRect.left;
+    const startY = startRect.top + startRect.height / 2 - svgRect.top;
+    const endX = endRect.left - svgRect.left;
+    const endY = endRect.top + endRect.height / 2 - svgRect.top;
+
+    const controlX = startX + (endX - startX) / 2;
+
+    const pathData = `
+      M ${startX} ${startY}
+      C ${controlX} ${startY} ${controlX} ${endY} ${endX} ${endY}
+    `;
+
+    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    path.setAttribute("d", pathData);
+    path.setAttribute("fill", "none");
+    path.setAttribute("stroke", options.color || "#4e7a78");
+    path.setAttribute("stroke-width", options.width || 3);
+    path.setAttribute("marker-end", "url(#arrowhead)");
+
+    svg.appendChild(path);
+  }
+
+  function createArrowHead(svg) {
+    const defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
+    const marker = document.createElementNS("http://www.w3.org/2000/svg", "marker");
+    marker.setAttribute("id", "arrowhead");
+    marker.setAttribute("markerWidth", "10");
+    marker.setAttribute("markerHeight", "7");
+    marker.setAttribute("refX", "10");
+    marker.setAttribute("refY", "3.5");
+    marker.setAttribute("orient", "auto");
+    marker.setAttribute("fill", "#4e7a78");
+
+    const polygon = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+    polygon.setAttribute("points", "0 0, 10 3.5, 0 7");
+
+    marker.appendChild(polygon);
+    defs.appendChild(marker);
+    svg.appendChild(defs);
+  }
+
+  function drawAllArrows() {
+    const svg = document.getElementById("arrows-svg");
+    svg.innerHTML = "";
+    createArrowHead(svg);
+
+    // Get all boxes
+    const b1 = document.getElementById("box1");
+    const b2 = document.getElementById("box2");
+    const b3 = document.getElementById("box3");
+    const b4 = document.getElementById("box4");
+    const b5 = document.getElementById("box5");
+    const b6 = document.getElementById("box6");
+    const b7 = document.getElementById("box7");
+    const b8 = document.getElementById("box8");
+
+    // Vertical arrows
+    drawArrow(svg, b1, b2);
+    drawArrow(svg, b2, b3);
+    drawArrow(svg, b3, b4);
+
+    // Horizontal arrows from Segment Tree Query Layer to Search & Ranking and Restocking Module
+    drawHorizontalArrow(svg, b4, b5);
+    drawHorizontalArrow(svg, b4, b6);
+
+    // Vertical arrows down from Search & Ranking and Restocking Module to their outputs
+    drawArrow(svg, b5, b7);
+    drawArrow(svg, b6, b8);
+  }
+
+  window.addEventListener("resize", drawAllArrows);
+  window.addEventListener("load", drawAllArrows);
+</script>
+</body>
+</html>

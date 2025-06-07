@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Inventory and Dynamic Logistics Optimization</title>
+  <link rel="stylesheet" href="counterfeit.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <header>
+    <div class="nav-container">
+      <div class="logo"><span class="highlight-title">Smart Inventory and Dynamic Logistics Optimization</span></div>
+
+      <ul class="nav-links">
+        <li><a href="#intro">Introduction</a></li>
+        <li><a href="#objectives">Objectives</a></li>
+        <li><a href="#solution">Solution</a></li>
+        <li><a href="#impact">Impact</a></li>
+        <li><a href="#future">Future</a></li>
+        <li><a href="#conclusion">Conclusion</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main>
+    <section id="intro" class="section">
+      <div class="card">
+        <h2>Introduction & Problem Statement</h2>
+        <p>
+         Efficiently managing inventory and deliveries is a major challenge for large e-commerce companies. With multiple warehouses storing thousands of products, it’s important to keep track of stock levels and know when restocking is needed. At the same time, planning delivery routes that minimize cost and time is essential to ensure smooth operations and satisfy customers. The problem is to build a system that can quickly process large amounts of inventory and logistics data to identify low-stock warehouses and find the best delivery routes, even as conditions like traffic and demand change.</p>
+
+        </p>
+      </div>
+    </section>
+
+    <section id="objectives" class="section alt-bg">
+      <div class="card">
+        <h2>Objectives</h2>
+        <ul class="grid-list">
+          <li>To keep real-time track of inventory levels across multiple warehouses accurately.</li>
+          <li>To plan the most cost-effective delivery routes for restocking warehouses.</li>
+          <li>To reduce delivery delays and minimize transportation costs by optimizing routes.</li>
+          
+        </ul>
+      </div>
+    </section>
+
+<section id="solution" class="section">
+  <div class="card">
+    <h2>System Flow Diagram</h2>
+  <!-- HTML -->
+<div class="scroll-container">
+  <img src="./docs/inventory.png" alt="Smart Counterfeit Detection System Flow Diagram" class="flow-image" />
+</div>
+
+  </div>
+</section>
+ 
+ <section class="section">
+  <div class="card">
+    <h2>Proposed Solution</h2>
+    <p>
+      The proposed solution focuses on keeping track of inventory and sales data in a way that allows fast and easy searching. It uses a method to quickly find products and orders based on different conditions like price or date. For restocking, it plans delivery routes that cost the least, ensuring warehouses get supplies on time without wasting resources. The system connects all these parts so that decisions about pricing, stock, and deliveries can be made quickly and smoothly, helping both the business and customers.
+
+
+    </p>
+
+    <div style="background-color: #f9fafb; padding: 15px 20px; border-radius: 8px; margin-bottom: 20px;">
+      <h3>Step 1:</h3>
+      <p><b>Data Modeling & Preparation</b><br>
+        In Step 1, all important data is collected and organized, including inventory and sales details like product IDs, prices, categories, stock per warehouse, and sales history. The warehouse network is represented as a weighted graph showing warehouses as nodes and routes as edges with costs such as distance and fuel. Customer orders with relevant details are also gathered. This well-structured data is crucial because it lays the foundation for building efficient segment trees in the next step. Proper preprocessing, such as normalizing and compressing attributes, ensures fast indexing and allows the warehouse graph to update dynamically with real-time route costs. Without this clean data preparation, the fast queries and updates needed in Step 2 wouldn’t work effectively.
+
+      </p>
+     
+    </div>
+
+  <div style="background-color: #f9fafb; padding: 15px 20px; border-radius: 8px; margin-bottom: 20px;">
+  <h3>Step 2:</h3>
+  <p><b>Build and Use Segment Trees for Fast Queries</b><br>
+    In Step 2, <a href="algorithms.html" >segment trees</a> are built on important attributes like product price, stock levels, and sales dates to allow fast range queries and updates. Each segment tree node holds aggregated data, such as total stock within a price range, enabling quick answers to questions like "How much stock is there for electronics priced between ₹500 and ₹1500?"<b> When sales happen, the trees update efficiently, keeping data current.</b>
+  </p>
+  <p>
+   This fast querying system plays a key role in the next steps. It helps filter products or orders quickly so the ranking model can focus only on relevant items, improving search speed and accuracy. At the same time, it continuously monitors stock levels across warehouses, signaling when restocking is needed and triggering route planning for deliveries. Without this efficient data structure, real-time decision-making for both ranking and logistics would be much slower and less reliable.
+  </p>
+
+  <!-- GitHub Button -->
+  </div>
+
+
+    <div style="background-color: #f9fafb; padding: 15px 20px; border-radius: 8px; margin-bottom: 20px;">
+      <h3>Step 3:</h3>
+      <p><b>ML-Powered Search Ranking</b><br>
+      After <a href="algorithms.html" >segment trees</a> filter down large data sets into relevant candidates, this step applies machine learning ranking models (like <b>LambdaMART</b>) to sort products or orders based on relevance. These models are trained on past data to understand what matters most to users — helping show the right items faster in search results or support tools. This not only improves customer experience but also reduces the computational load on ranking systems since they work only on pre-filtered data.
+      </p>
+      <p>
+       The output from this step also influences logistics — highly ranked, fast-moving products help signal which items might need quicker restocking, feeding into the routing decisions in the next step. So, ranking here does more than just search — it shapes supply priorities too.
+      </p>
+          </div>
+
+    <div style="background-color: #f9fafb; padding: 15px 20px; border-radius: 8px; margin-bottom: 20px;">
+      <h3>Step 4:</h3>
+      <p><b>Optimal Routing with <a href="algorithms.html">Uniform Cost Search (UCS)</a></b> <br> </b>
+        Based on low-stock alerts from segment trees,  <a href="algorithms.html"> (UCS)</a> is used to compute the most efficient delivery routes from central warehouses to those needing restocking. The entire warehouse network is modeled as a graph, where edges carry real-time costs like distance, traffic delays, or fuel usage.  <a href="algorithms.html">Uniform Cost Search (UCS)</a> finds the lowest-cost path without needing extra heuristics, making it perfect for Amazon’s constantly changing logistics. This step ensures stock is moved quickly and economically — directly driven by the inventory signals generated in Step 2.
+      </p>
+               </div>
+
+    <div style="background-color: #f9fafb; padding: 15px 20px; border-radius: 8px; margin-bottom: 20px;">
+      <h3>Step 5:</h3>
+      <p><b>Continuous Feedback Loop</b></p>
+      <p>Once deliveries are made, inventory data is updated and fed back into the system. This refreshes the segment trees, adjusts rankings, and can trigger new routing actions if needed. This loop keeps the system adaptive, ensuring real-time responsiveness to stock changes, customer demand, and shifting logistics conditions. </p>        </div>
+
+    <div class="outcomes">
+      <h3><b>Outcomes</b></h3>
+      <ul class="vertical-list">
+        <b>
+          <li>Listings that receive high risk scores would be automatically blocked or flagged for manual review.</li>
+          <li>Listings with low risk scores could be approved and might earn a “trusted seller” badge to help increase buyer confidence.</li>
+        </b>
+      </ul>
+    </div>
+  </div>
+</section>
+
+
+    <section id="impact" class="section alt-bg">
+      <div class="card">
+        <h2>Business Impact</h2>
+        <ul class="grid-list">
+          <li>Reduced handling time, improved customer satisfaction (CSAT), and lower support costs.</li>
+          <li>Lower holding costs, higher inventory turnover, and improved product availability.</li>
+          <li>Reduced shipping costs, faster delivery, and better warehouse utilization.</li>
+                  </ul>
+      </div>
+    </section>
+
+  
+
+    <section id="conclusion" class="section alt-bg">
+      <div class="card">
+        <h2>Conclusion</h2>
+        <p>
+          This solution seamlessly integrates segment trees for fast inventory insights, A9-style ranking for smart search, and UCS for efficient restocking routes. Together, they create a dynamic, responsive system that improves product discovery, optimizes logistics, and enhances customer experience — while laying the foundation for future AI-driven fulfillment at scale.
+        </p>
+              </div>
+    </section>
+  </main>
+
+</body>
+</html>

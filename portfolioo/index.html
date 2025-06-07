@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sushmita Math | Portfolio</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+  <script>
+    // Smooth scroll for internal links
+    document.addEventListener("DOMContentLoaded", function() {
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          e.preventDefault();
+          document.querySelector(this.getAttribute('href')).scrollIntoView({
+            behavior: 'smooth'
+          });
+        });
+      });
+    });
+  </script>
+  <style>
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      background-color: white;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .btn, .btn-outline, .view-project-btn, .view-case-btn {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .btn:hover, .btn-outline:hover, .view-project-btn:hover, .view-case-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    .project-card, .business-case-card, .education-card {
+      transition: transform 0.3s ease;
+    }
+    .project-card:hover, .business-case-card:hover, .education-card:hover {
+      transform: scale(1.02);
+    }
+    .project-card, .business-case-card {
+      cursor: pointer;
+    }
+    .two-column li {
+      transition: color 0.3s ease;
+    }
+    .two-column li:hover {
+      color: #4E7A78;
+    }
+    .nav-links a {
+      position: relative;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      display: block;
+      margin-top: 5px;
+      right: 0;
+      background: #4E7A78;
+      transition: width 0.4s ease;
+      -webkit-transition: width 0.4s ease;
+    }
+    .nav-links a:hover::after {
+      width: 100%;
+      left: 0;
+      background: #4E7A78;
+    }
+  </style>
+</head>
+<body>
+<header>
+    <div class="nav-container">
+      <div class="logo">Sushmita Math</div>
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#business-cases">Bussiness cases</a></li>
+ <li><a href="algorithms.html">algorithms used</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Hello, I'm <span>Sushmita</span></h1>
+      <p>Computer Science Engineer | WiDS Global Top 10 | Purpose-Driven Creator</p>
+      <div class="button-group">
+        <a href="https://github.com/Sushmita-Math/sushmita-s_portfolio/main/Sushmita%20Math.pdf" class="btn" target="_blank">Download Resume</a>
+        <a href="#about" class="btn-outline">More About Me</a>
+      </div>
+    </div>
+  </section>
+<section id="about" style="padding: 40px 20px; background-color: transparent;">
+  <div style="max-width: 1300px; margin: auto;">
+    <div class="about-container" style="display: flex; align-items: center; gap: 2rem; flex-wrap: wrap; background-color: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);">
+      
+      <img src="C:\Users\sushm\Desktop\pic.jpg" alt="Sushmita Math"
+           style="width: 200px; height: 200px; border-radius: 50%; object-fit: cover; border: 2px solid #ddd;" />
+      
+      <div class="about-text" style="flex: 1; min-width: 280px;">
+        <h2 style="font-size: 32px; margin-bottom: 16px; color: #4E7A78; font-weight: bold;">About Me</h2>
+        
+        <p style="font-size: 18px; line-height: 1.7; color: #333; margin-bottom: 20px;">
+       I am currently a third-year Computer Science Engineering student, passionate about building practical and user-friendly solutions through web development and intelligent automation. With a strong foundation in algorithms, databases, and data-driven methods, I’m motivated to design scalable systems that can make a real difference in everyday life.
+        </p>
+        
+        <p style="font-size: 18px; line-height: 1.7; color: #333; margin-bottom: 20px;">
+         Having selected <strong>Amazon</strong> as my preferred industry, I most identify with its customer obsession, fearlessness in innovation, and metric-driven decision-making. From streamlining logistics to creating stirring digital experiences, I'm drawn to Amazon's use of technology to tackle the world's toughest challenges—and I'm eager to be a member of the team.
+        </p>
+      </div>
+    </div>
+
+<!-- Why Amazon Section -->
+<div style="background-color: white; padding: 30px; margin-top: 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06); position: relative;">
+
+  <!-- Amazon Logo (top-right corner) -->
+  <img src="./docs/amazon.png" alt="Amazon Logo" id="amazon-logo" />
+
+
+  <!-- Title -->
+  <h2 style="font-size: 32px; color: #4E7A78; margin-bottom: 16px; font-weight: bold;">Why Amazon?</h2>
+
+  <!-- Description -->
+  <p style="font-size: 18px; line-height: 1.7; color: #333;">
+    Amazon stands at the forefront of global innovation, with its unmatched focus on customer satisfaction, cutting-edge technologies, and a culture of continual experimentation. From redefining e-commerce and cloud computing to pioneering AI-driven logistics and sustainability efforts, Amazon’s work aligns perfectly with my passion for using technology to solve real-world problems. I admire how the company blends data, design, and bold thinking to create impactful products—and I aspire to be part of that journey.
+  </p>
+
+  <!-- Button to MVC.html -->
+  <div style="margin-top: 24px;">
+    <a href="MVC.html" style="display: inline-block; padding: 12px 24px; background-color: #4E7A78; color: white; text-decoration: none; font-size: 16px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); transition: background-color 0.3s;">
+      View MVC Architecture for Amazon
+    </a>
+  </div>
+</div>
+
+  </div>
+</section>
+
+
+
+<section id="education">
+  <div class="education-container">
+    <h2 class="section-heading">Education</h2>
+    <div class="education-card">
+      <div class="edu-left">
+        <h3>Bachelor of Engineering in Computer Science and Engineering</h3>
+        <p><strong>KLE Technological University, Hubballi</strong></p>
+        <p>November 2022 – May 2026 | CGPA: 9.1 / 10</p>
+      </div>
+      <div class="edu-right">
+        <p><strong>Relevant Coursework:</strong></p>
+        <ul>
+          <li>Data Structures and Algorithms</li>
+          <li>Operating Systems</li>
+          <li>Machine Learning</li>
+          <li>Database Management Systems (DBMS)</li>
+          <li>Object-Oriented Programming (OOP)</li>
+          <li>Computer Networks (CN)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <h2>Skills</h2>
+  <div class="skills-wrapper">
+    <div class="skills-box">
+      <h3>Technical Skills</h3>
+      <ul class="two-column">
+        <li>C</li>
+        <li>C++</li>
+        <li>Python</li>
+        <li>HTML</li>
+        <li>CSS</li>
+        <li>JavaScript</li>
+        <li>Git & GitHub</li>
+        <li>Linux</li>
+        <li>MySQL</li>
+      </ul>
+    </div>
+    <div class="skills-box">
+      <h3>Soft Skills</h3>
+      <ul class="two-column">
+        <li>Problem Solving</li>
+        <li>Communication</li>
+        <li>Team Collaboration</li>
+        <li>Time Management</li>
+        <li>Leadership</li>
+        <li>Critical Thinking</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+
+ <section id="projects">
+  <h2>Projects</h2>
+  <div class="projects-container">
+
+
+  <div class="project-card">
+      <h3>WiDS Datathon (Top 10 Global)</h3>
+      <p>The WiDS Datathon 2024 focused on predicting metastatic cancer diagnosis time using machine learning models. Participants were tasked with developing predictive models to estimate the time until a cancer diagnosis, leveraging patient data and various predictive features. The challenge emphasized both technical accuracy and the ability to communicate results through impactful storytelling, helping to highlight the potential of machine learning in healthcare.</p>
+      <a href="wids.html" class="view-project-btn">View Project</a>
+    </div>
+
+<div class="project-card">
+  <h3>Estimation of Hemoglobin from Palpebral Conjunctiva</h3>
+  <p>
+    A real-time hemoglobin level estimation system using image processing of the palpebral conjunctiva. 
+    This project leverages a dataset provided by JGMM Medical College, Hubballi, to develop an AI-powered 
+    pipeline that assists in non-invasive anemia detection through eye image analysis.
+  </p>
+  <a href="blood.html" class="view-project-btn">View Project</a>
+</div>
+
+<div class="project-card">
+  <h3>Exam Timetable Generation for our university</h3>
+  <p>
+    Developed a robust exam timetable generation system using Genetic Algorithms to efficiently allocate exams, rooms, and slots. 
+    The solution handles constraints like student exam overlaps, room capacities, and alternate day scheduling, optimizing 
+    for fairness and feasibility across multiple departments and semesters.
+  </p>
+  <a href="time.html" class="view-project-btn">View Project</a>
+</div>
+
+
+    <div class="project-card">
+      <h3>Security and Surveillance: Human and Suspicious Object Detection Using YOLOv11</h3>
+      <p>Developed a real-time security system using YOLOv11 for human and suspicious object detection, enhancing surveillance by identifying potential threats such as weapons and unattended bags. </p>
+      <a href="./docs/yolo.pdf" class="view-project-btn"
+       style="display: inline-block; margin-top: 20px; background-color: #4E7A78; color: #ffffff; padding: 10px 18px; border-radius: 8px; text-decoration: none; font-weight: 600; border: 1px solid #c7d2fe;">
+       View Project
+    </a>
+    </div>
+
+  
+  </div>
+
+
+</section>
+
+<section id="business-cases">
+  <h2 class="section-heading">Business Cases</h2>
+  <div class="vertical-scroll-box">
+    <div class="business-case-card">
+      <h3>Smart Counterfeit Detection System</h3>
+      <p>Counterfeit products pose a significant threat to e-commerce platforms by undermining customer trust and damaging brand value. This system leverages advanced machine learning models combined with efficient data structures to analyze seller behavior and perform real-time product verification. Techniques such as image similarity using convolutional neural networks, seller reputation scoring with graph algorithms, and rapid product feature matching using KD-Trees ensure that fake listings are detected and blocked before they go live. This proactive approach enhances platform security while maintaining a seamless experience for genuine sellers and buyers.</p>
+
+      <a href="counterfeit.html" class="view-case-btn">View Case Study</a>
+    </div>
+
+    <div class="business-case-card">
+      <h3>Quick Search Generation for New and Unseen Categories</h3>
+      <p>
+        AI-powered customer service automation can significantly improve efficiency and customer satisfaction by reducing operational costs, providing 24/7 support, and scaling easily during peak times. However, there are challenges, such as limited emotional understanding, technical limitations, dependence on technology, and privacy concerns. These issues can be addressed by implementing emotion recognition tools, continuously training AI models, offering hybrid systems for human escalation, and ensuring strong data privacy measures. The approach includes piloting the system, collecting feedback, and gradually expanding its use. With the right solutions in place, AI automation can transform customer service operations, enhancing both efficiency and customer experience.
+      </p>
+
+      <a href="quick.html" class="view-case-btn">View Case Study</a>
+    </div>
+
+    <div class="business-case-card">
+      <h3>Last-Mile Delivery Optimization</h3>
+      Last-mile delivery—getting packages from warehouses to your doorstep—is tricky and expensive. Problems like traffic, scattered locations, and tight time slots make it hard to plan routes.
+<br>
+Amazon handles this by grouping nearby orders (using tools like Condor), assigning them smartly to vehicles, and planning routes with A\* to avoid delays.<br>
+
+By combining smart clustering, vehicle assignment, real-time traffic prediction, and route adjustments, Amazon delivers faster, uses vehicles better, cuts costs, and keeps customers happy.
+
+      </p>
+
+      <a href="A.html" class="view-case-btn">View Case Study</a>
+    </div>
+ 
+ <div class="business-case-card">
+      <h3>Smart Inventory and Dynamic Logistics Optimization</h3>
+      This solution enhances how products are searched, ranked, and restocked across a distributed warehouse system. It uses segment trees to quickly track stock and sales, ranking models to sort results by relevance, and uniform cost search to plan the most efficient delivery routes. The entire setup keeps the system responsive to real-time changes, improving both customer satisfaction and operational efficiency.
+
+
+      </p>
+
+      <a href="inventory.html" class="view-case-btn">View Case Study</a>
+    </div>
+
+
+  <div class="business-case-card">
+      <h3>Adaptive Fashion Recommender for E-Commerce Growth</h3>
+     The fashion industry is moving toward personalized shopping, where recommendations match each customer’s unique style and changing preferences. This requires handling images, descriptions, and product details while adapting to trends and seasons. The system balances familiar favorites with fresh suggestions, delivering fast and scalable recommendations that keep users engaged and satisfied.
+
+      </p>
+
+      <a href="fashion.html" class="view-case-btn">View Case Study</a>
+    </div>
+  </div>
+</section>
+
+<section id="contact" style="padding: 40px 20px; background-color: #f7f9fa; font-family: Arial, sans-serif; text-align: center;">
+  <h2 style="font-size: 2.5rem; margin-bottom: 10px; color: #00796b;">Contact Me</h2>
+  <p style="font-size: 1.1rem; color: #555; margin-bottom: 30px;">
+    Feel free to reach out via GitHub, LinkedIn, or Email!
+  </p>
+  
+  <div style="display: flex; justify-content: center; gap: 40px; font-size: 30px;">
+    
+    <a href="https://github.com/Sushmita-Math" target="_blank" aria-label="GitHub"
+       style="color: #333; text-decoration: none; cursor: pointer; display: flex; align-items: center; transition: color 0.3s ease;"
+       onmouseover="this.style.color='#00796b';" onmouseout="this.style.color='#333';">
+      <i class="fa-brands fa-github"></i>
+      <span style="font-size: 18px; margin-left: 8px;">GitHub</span>
+    </a>
+
+    <a href="https://linkedin.com/in/sushmita-math-2a5477261" target="_blank" aria-label="LinkedIn"
+       style="color: #0A66C2; text-decoration: none; cursor: pointer; display: flex; align-items: center; transition: color 0.3s ease;"
+       onmouseover="this.style.color='#004d40';" onmouseout="this.style.color='#0A66C2';">
+      <i class="fa-brands fa-linkedin"></i>
+      <span style="font-size: 18px; margin-left: 8px;">LinkedIn</span>
+    </a>
+
+    <a href="mailto:sushmitamath4@gmail.com" aria-label="Email"
+       style="color: #555; font-weight: 600; font-size: 18px; text-decoration: none; cursor: pointer; display: flex; align-items: center; transition: color 0.3s ease;"
+       onmouseover="this.style.color='#00796b'; this.style.textDecoration='underline';"
+       onmouseout="this.style.color='#555'; this.style.textDecoration='none';">
+      <i class="fa-solid fa-envelope" style="font-size: 26px; margin-right: 8px;"></i> Email
+    </a>
+
+  </div>
+</section>
+
+
+  <footer>
+    <p>&copy;  Sushmita Math. All Rights Reserved.</p>
+  </footer>
+
+  <!-- original content remains unchanged -->
+</body>
+</html>

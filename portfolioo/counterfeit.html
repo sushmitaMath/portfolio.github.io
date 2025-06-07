@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Counterfeit Detection System</title>
+  <link rel="stylesheet" href="counterfeit.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <header>
+    <div class="nav-container">
+      <div class="logo"><span class="highlight-title">Smart Counterfeit Detection System</span></div>
+<div style="display: flex;">
+  <div style="margin-left: auto; margin-right: 100px; width: fit-content; margin-top: -10px;">
+    <p style="font-size: 0.95rem; color: #555;">
+      Source: 
+      <a href="https://www.hopstack.io/blog/challenges-faced-by-amazon-fba-sellers" target="_blank" style="color: #4E7A78; text-decoration: none; border-bottom: 1px solid #4E7A78;">
+        https://www.hopstack.io/blog/challenges-faced-by-amazon-fba-sellers
+      </a>
+    </p>
+  </div>
+</div>
+
+      <ul class="nav-links">
+        <li><a href="#intro">Introduction</a></li>
+        <li><a href="#objectives">Objectives</a></li>
+        <li><a href="#solution">Solution</a></li>
+        <li><a href="#impact">Impact</a></li>
+        <li><a href="#future">Future</a></li>
+        <li><a href="#conclusion">Conclusion</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main>
+    <section id="intro" class="section">
+      <div class="card">
+        <h2>Introduction & Problem Statement</h2>
+        <p>
+         The rise of e-commerce has transformed how consumers shop, providing convenience and vast product choices. However, this rapid growth has also led to an increase in counterfeit products infiltrating online marketplaces. Amazon, as one of the world’s largest platforms, faces significant risks from fake or duplicate listings—especially involving popular brands like Apple and Nike. These counterfeit items not only damage brand reputation but also erode customer trust and satisfaction.</p> <p>
+While Amazon has implemented programs such as <b>Brand Registry and Project Zero</b> to address this issue, these solutions largely act after counterfeit listings have already appeared. This reactive approach places too much reliance on brands and customers to identify and report fake products, allowing many counterfeit listings to slip through undetected.
+There is a critical need for a proactive, automated system that can identify and block counterfeit sellers and listings before they reach customers. This business case proposes such a solution, leveraging advanced data structures and AI-driven algorithms to enhance authenticity verification and safeguard the integrity of Amazon’s marketplace.</p>
+
+        </p>
+      </div>
+    </section>
+
+    <section id="objectives" class="section alt-bg">
+      <div class="card">
+        <h2>Objectives</h2>
+        <ul class="grid-list">
+          <li>Proactively detect counterfeit listings</li>
+          <li>Safeguard consumer trust</li>
+          <li>Protect brand reputation</li>
+          <li>Streamline seller verification</li>
+        </ul>
+      </div>
+    </section>
+
+<section id="solution" class="section">
+  <div class="card">
+    <h2>System Flow Diagram</h2>
+    <img src="./docs/counterfiet_flow.png" alt="Smart Counterfeit Detection System Flow Diagram" class="flow-image" />
+  </div>
+</section>
+ 
+ <section class="section">
+  <div class="card">
+    <h2>Proposed Solution</h2>
+    <p>
+      To proactively prevent counterfeit products on Amazon, the proposed system leverages advanced AI-powered techniques to automatically verify new sellers and their product listings before they are published. This approach reduces reliance on reactive reporting and manual intervention by brands and customers, enabling faster detection and blocking of counterfeit items. The system integrates image similarity matching, seller behavior analysis, and automated decision-making to maintain the integrity of Amazon’s marketplace.
+    </p>
+
+    <div style="background-color: #f9fafb; padding: 15px 20px; border-radius: 8px; margin-bottom: 20px;">
+      <h3>Step 1:</h3>
+      <p><b>Seller Registration and Data Collection</b><br>
+        When a new seller attempts to register or list a product on the platform, the system gathers comprehensive information including product images, detailed descriptions, pricing, SKU and seller metadata. Although new sellers may not have transaction history at the point of registration, the system continuously monitors sellers’ transaction history once they begin selling.
+      </p>
+     
+    </div>
+
+  <div style="background-color: #f9fafb; padding: 15px 20px; border-radius: 8px; margin-bottom: 20px;">
+  <h3>Step 2:</h3>
+  <p><b>Image Verification Against Trusted Database</b><br>
+    When a seller uploads product images, the system transforms these images into high-dimensional feature vectors using 
+    <b>deep convolutional neural networks (CNNs)</b> like ResNet or MobileNet. These feature vectors are complex numerical 
+    representations that capture subtle visual details—such as textures, shapes, and color gradients—enabling more accurate 
+    comparison beyond simple pixel matching.
+    To efficiently manage this data, advanced structures like 
+    <a href="algorithms.html" style="font-weight:bold;">KD-Trees</a> organize and accelerate nearest neighbor 
+    searches when the dataset is moderate in size.
+    <a href="algorithms.html" style="font-weight:bold;">Locality Sensitive Hashing(LS</a>is used for very large 
+    databases with millions of images. LSH hashes similar feature vectors into common buckets with high probability, enabling fast 
+    approximate nearest neighbor searches that balance accuracy and speed at scale.
+  </p>
+  <p>
+    This system detects images closely resembling authentic products but with subtle anomalies—such as misaligned logos or 
+    unusual color shifts—that often indicate counterfeits.
+    Flagged listings then proceed to further checks like seller behavior analysis or manual review before a final decision on legitimacy.
+    <b>For example, the system could flag an image saying, “This looks 90% like an Apple iPhone 14, but the logo seems off, so it needs a closer look.”</b>
+  </p>
+
+  <!-- GitHub Button -->
+  </div>
+
+
+    <div style="background-color: #f9fafb; padding: 15px 20px; border-radius: 8px; margin-bottom: 20px;">
+      <h3>Step 3:</h3>
+      <p><b>Textual Description & Title Verification</b><br>
+        Counterfeit listings often try to appear legitimate by using misleading titles or buzzword-filled descriptions. This step verifies whether the submitted text aligns with genuine product data.
+      </p>
+      <p>
+        First, we use  <b>TF-IDF</b>  combined with cosine similarity to compare the title and description of a new listing against a trusted database of authentic product descriptions. This helps us identify listings that use the correct keywords in the right context.
+        To go beyond surface-level keyword matching, we apply <b> BERT embeddings</b> , which capture the deeper semantic meaning of the text. This allows the system to detect descriptions that might appear correct on the surface but are actually vague or misleading.
+        A key part of this step is the use of <b> Maximum Mutual Information(MMI)</b> . MMI measures how much meaningful information is actually shared between the seller’s text and verified product data.
+      </p>
+      <p>
+        It helps identify listings that simply repeat popular terms or use slight misspellings—like “Applle” instead of “Apple”—without conveying real, informative content. Listings with low mutual information are flagged as suspicious.
+        <b> example: A fake listing like “New Applle iPhonexx — 100% Original, Super Phonee, Buy Now!” might score high on TF-IDF due to keyword overlap like "Apple" and "iPhone." However, MMI gives it a low score because it lacks meaningful, informative content found in genuine listings—like technical specs or real features—revealing it's likely trying to mislead buyers.  </b>
+      </p>
+    
+    </div>
+
+    <div style="background-color: #f9fafb; padding: 15px 20px; border-radius: 8px; margin-bottom: 20px;">
+      <h3>Step 4:</h3>
+      <p><b>Seller Behavior & Network Analysis Using  <b >Connected componded Analysis(CCA)</b> <br> </b>
+        Even if a product’s images and descriptions seem authentic, it’s critical to evaluate the seller's background to catch hidden fraud. Many counterfeiters work through coordinated seller networks, not just single fake accounts. This is where Connected Component Analysis (CCA) helps.
+      </p>
+      <p>
+        CCA is a graph-based algorithm used to detect groups of entities that are directly or indirectly linked. In our use case, each seller is represented as a node in a graph, and connections (edges) are formed based on shared suspicious characteristics — such as common IP addresses, repeated product templates, linked payment methods, or mutual buyer-review circles.
+      </p>
+      <p>
+        Once these connections are mapped, CCA identifies "components" — tightly-knit seller clusters. If one or more members of a component are involved in fraudulent activity, the entire group can be flagged for further scrutiny.
+      </p>
+      <b>example:
+        <ul>
+          <li>Seller A and Seller B operate from the same IP address</li>
+          <li>Seller B and Seller C post near-identical fake listings</li>
+          <li>Seller C has already been banned for selling counterfeits</li>
+        </ul> <p>
+        At first glance, Seller A may appear trustworthy. But by using CCA, all three sellers are identified as part of a single fraudulent cluster. The system automatically flags this group, preventing coordinated fraud that might otherwise go undetected if sellers were analyzed in isolation. </p>
+      </b>
+          </div>
+
+    <div style="background-color: #f9fafb; padding: 15px 20px; border-radius: 8px; margin-bottom: 20px;">
+      <h3>Step 5:</h3>
+      <p><b>After verifying product images in Step 2 and analyzing seller networks for suspicious activity in Step 3, some counterfeit listings can still slip through. Step 4 adds an important layer of product-level verification and combines all the signals into a unified risk score to improve detection accuracy and make enforcement scalable.</b></p>
+      <ul>
+        <li><b>4a. Product Authenticity Registry Lookup</b><br>
+          <p>
+            Product identifiers like SKUs, barcodes, or serial numbers are hashed securely and checked against a brand-approved authenticity registry. This protects data privacy while ensuring integrity.
+          </p>
+          <p>
+            To catch tricky cases like typo squatting—where sellers replace letters with similar-looking numbers (e.g., “Appl3” instead of “Apple”)—the system uses  <b>Fuzzy Matching techniques</b> . The Trie efficiently stores all valid product names or SKUs in a prefix tree, allowing fast lookups. When a new product name is checked, the system navigates the Trie while allowing a limited number of character substitutions, insertions, or deletions, as determined by the fuzzy matching algorithm (like Levenshtein distance). This way, it can quickly identify near-matches even if the name is slightly altered or misspelled. Listings with SKUs that are missing from or flagged by the registry are then marked as potentially counterfeit.
+          </p>
+        </li>
+        <li><b>4b. Risk Scoring Engine</b><br>
+          <p>
+            This engine takes multiple inputs and combines them into a single risk score, including:
+            Visual similarity scores from the deep learning image analysis (Step 2)
+            Seller risk scores derived from detecting suspicious seller clusters using Connected Component Analysis (Step 3)
+            Price anomaly checks for listings priced way below market value
+            Text analysis that flags keyword deception or manipulation
+            Results from the authenticity registry lookup (SKU validity)
+            All these features feed into a machine learning model—such as XGBoost or LightGBM—trained on historical data of genuine and fake listings.<b> The model outputs a normalized risk score (between 0 and 1, or 0 and 100) showing the likelihood that the listing is counterfeit.</b>
+          </p>
+        </li>
+      </ul>
+        </div>
+
+    <div class="outcomes">
+      <h3><b>Outcomes</b></h3>
+      <ul class="vertical-list">
+        <b>
+          <li>Listings that receive high risk scores would be automatically blocked or flagged for manual review.</li>
+          <li>Listings with low risk scores could be approved and might earn a “trusted seller” badge to help increase buyer confidence.</li>
+        </b>
+      </ul>
+    </div>
+  </div>
+</section>
+
+
+    <section id="impact" class="section alt-bg">
+      <div class="card">
+        <h2>Business Impact</h2>
+        <ul class="grid-list">
+          <li>Blocks counterfeit listings before they go live, rather than reacting after customer or brand reports.h</li>
+          <li>Strengthens customer trust by ensuring only authentic products appear on the platform.</li>
+          <li>Protects the reputation of top brands by proactively filtering fake listings.</li>
+          <li>Minimizes revenue loss caused by fraud and returns linked to counterfeit items.</li>
+<li>Speeds up the verification process for genuine sellers, improving onboarding. </li>
+<li> Enhances the overall integrity and credibility of Amazon’s marketplace.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="future" class="section">
+      <div class="card">
+        <h2>Future Implications</h2>
+        <ul class="grid-list">
+          <li>Integrate <b>natural language generation (NLG) models</b> to automatically generate alerts and detailed reports for manual reviewers, speeding up the review process.</li>
+          <li>Incorporate real-time price anomaly detection using market trend data to more accurately flag suspiciously low-priced listings.</li>
+          <li>Expand image verification to include 3D model analysis and video content checks for products with multimedia listings.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="conclusion" class="section alt-bg">
+      <div class="card">
+        <h2>Conclusion</h2>
+        <p>
+          This system offers a proactive and effective approach to tackling counterfeit products on Amazon. It effectively addresses the limitations of current reactive approaches. By combining AI-driven image and text verification with seller behavior analysis, this solution will help restore buyer confidence, safeguard Amazon’s marketplace integrity, and ultimately drive sustainable business growth.
+        </p>
+        <a class="download-btn" href="./docs/counterfiet.pdf" download>📄 Download PDF</a>
+      </div>
+    </section>
+  </main>
+
+</body>
+</html>

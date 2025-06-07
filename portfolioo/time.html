@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ESA Timetable Generation Project</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f9fafb;
+      color: #333;
+    }
+
+    .project-full:hover {
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+    }
+    h1, h2 {
+      color: #4E7A78;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    /* Boxes styling without side border line */
+    .project-full {
+      max-width: 1100px;
+      margin: 3rem auto;
+      padding: 3rem 2rem;
+      background-color: #fff;
+      border-radius: 14px;
+      box-shadow: 0 6px 25px rgba(0, 0, 0, 0.09);
+      transition: box-shadow 0.3s ease;
+    }
+
+    /* Also reduce horizontal padding inside boxes to expand width */
+    .highlight-box, .pdf-box, .repo-box, .tech-box {
+      margin: 2.5rem 0;
+      padding: 2rem 1.5rem;
+      background-color: #f0f4f3;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(78, 122, 120, 0.15);
+      cursor: default;
+      transition: box-shadow 0.25s ease, transform 0.25s ease;
+    }
+
+    .highlight-box:hover,
+    .pdf-box:hover,
+    .repo-box:hover,
+    .tech-box:hover {
+      box-shadow: 0 8px 25px rgba(78, 122, 120, 0.3);
+      transform: translateY(-5px);
+    }
+    iframe, img {
+      border: none;
+      margin: 1rem 0 0 0;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+      border-radius: 12px;
+      width: 100%;
+      height: auto;
+    }
+    iframe {
+      height: 500px;
+      /* height fixed for pdf preview */
+    }
+    a {
+      color: #4E7A78;
+      text-decoration: none;
+      font-weight: 600;
+      border-bottom: 2px solid transparent;
+      transition: border-color 0.3s ease;
+    }
+    a:hover {
+      border-bottom: 2px solid #4E7A78;
+      text-decoration: none;
+    }
+    ul {
+      padding-left: 1.75rem;
+      margin-top: 0.5rem;
+    }
+    li {
+      margin-bottom: 0.7rem;
+      font-size: 1.05rem;
+      line-height: 1.5;
+    }
+    .back-link {
+      display: inline-block;
+      margin-top: 3rem;
+      padding: 0.7rem 1.2rem;
+      background-color: #4E7A78;
+      color: #fff;
+      border-radius: 6px;
+      font-weight: 600;
+      transition: background-color 0.3s ease;
+      text-decoration: none;
+      user-select: none;
+    }
+    .back-link:hover {
+      background-color: #3a5c5a;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <section class="project-full">
+<h1>Automated Exam Seating Arrangement Timetable Generator</h1>
+<div style="display: flex;">
+  <div style="margin-left: auto; margin-right: 100px; width: fit-content; margin-top: -10px;">
+    <p style="font-size: 0.95rem; color: #555;">
+      Source: 
+      <a href="https://www.jetir.org/papers/JETIR2305B98.pdf" target="_blank" style="color: #4E7A78; text-decoration: none; border-bottom: 1px solid #4E7A78;">
+        https://www.jetir.org/papers/JETIR2305B98.pdf
+      </a>
+    </p>
+  </div>
+</div>
+
+
+    <p><strong>Overview:</strong><br />
+      Built an automated system to generate exam seating arrangements across 4 branches (CSE, ECE, MECH, CIVIL) and 2 semesters (4th and 6th), managing constraints like student backlogs, room capacities, and exam clashes.</p>
+
+    <div class="highlight-box">
+      <h2>Problem Statement</h2>
+      <p>
+        Managing exam seating manually for multiple branches and semesters is complex and error-prone. Conflicts such as overlapping exams and exceeding room capacity need to be avoided while optimizing seating arrangements.
+      </p>
+    </div>
+
+    <div class="highlight-box">
+      <h2>Solution Approach</h2>
+      <ul>
+        <li>Implemented a Genetic Algorithm optimizing seating plans based on student registrations and room availability.</li>
+        <li>Encoded exam time and room assignments as chromosomes, iteratively improved solutions to minimize conflicts.</li>
+        <li>Handled realistic constraints including:
+          <ul>
+            <li>Avoiding simultaneous exams for backlog students</li>
+            <li>Room capacity restrictions</li>
+            <li>Alternating exam schedules between semesters</li>
+            <li>Incorporating holidays and specific exam timings</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <div class="tech-box">
+      <h2>Technologies Used</h2>
+      <ul>
+        <li>Python (Core implementation)</li>
+        <li>Genetic Algorithms for optimization</li>
+        <li>CSV file processing for input data</li>
+        <li> web visualization</li>
+      </ul>
+    </div>
+
+    <div class="highlight-box">
+      <h2>Results & Impact</h2>
+      <ul>
+        <li>Reduced manual scheduling time by over 80%</li>
+        <li>Ensured conflict-free exams with optimal seating</li>
+        <li>Optimized room usage and prevented overcrowding</li>
+        <li>Flexible and scalable solution adaptable for more branches and semesters</li>
+      </ul>
+    </div>
+
+    <!-- Example screenshot placeholder -->
+    <!-- Replace 'your-image-link.png' with actual image URL -->
+<div class="project-full">
+  <!-- ... other content ... -->
+
+  <img src="./docs/time.JPG" alt="Sample Timetable Screenshot" />
+
+  <!-- ... other content ... -->
+</div>
+<div class="project-full">
+     
+  <h3>Sample Code Snippet:</h3>
+  <pre style="background-color:#f0f4f3; padding:1rem; border-radius:12px; overflow-x:auto; box-shadow: 0 4px 15px rgba(78, 122, 120, 0.15);">
+<code>
+// Example: Fitness calculation for timetable population
+def calculate_fitness(individual):
+    penalty = 0
+    for exam in individual.exams:
+        # Penalize overlapping exams for students
+        if has_conflict(exam, individual):
+            penalty += 10
+        # Penalize room capacity overflow
+        if exam.students_count > exam.room.capacity:
+            penalty += 5
+    fitness = 1 / (1 + penalty)
+    return fitness
+</code>
+  </pre>
+
+</div>
+
+    <!-- Example repo or demo links can be added here -->
+    <!-- <div class="repo-box">
+      <h2>Code Repository</h2>
+      <p><a href="https://github.com/yourusername/esa-timetable-generator" target="_blank" rel="noopener noreferrer">GitHub Repo Link</a></p>
+    </div> -->
+
+   
+  </section>
+</body>
+</html>
